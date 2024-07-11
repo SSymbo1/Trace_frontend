@@ -1,0 +1,9 @@
+import request from "@/api/request.js";
+
+export const userLogin = (welcome) => {
+    return request.post('/welcome/login', welcome)
+}
+
+export const getPictureCaptcha = () => {
+    return request.get('/welcome/picture_captcha')
+}
