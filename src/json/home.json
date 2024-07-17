@@ -1,0 +1,47 @@
+{
+  "header_menu": [
+    {
+      "command": "home",
+      "icon": "House",
+      "name": "首页"
+    },
+    {
+      "command": "profile",
+      "icon": "User",
+      "name": "登录人信息"
+    },
+    {
+      "command": "change",
+      "icon": "Lock",
+      "name": "修改密码"
+    },
+    {
+      "command": "logout",
+      "icon": "SwitchButton",
+      "name": "退出登录"
+    }
+  ],
+  "visualized_platform": "重要产品溯源可视化平台",
+  "info_collect_card": [
+    {
+      "icon": "/src/assets/info_svg/ZondiconsUserGroup.svg",
+      "name": "账户统计",
+      "data": 864
+    },
+    {
+      "icon": "/src/assets/info_svg/ZondiconsChartBar.svg",
+      "name": "追溯总数居",
+      "data": 99119937
+    },
+    {
+      "icon": "/src/assets/info_svg/MingcuteBuilding1Fill.svg",
+      "name": "流通节点企业总数",
+      "data": 810
+    },
+    {
+      "icon": "/src/assets/info_svg/RiFunctionFill.svg",
+      "name": "重要产品",
+      "data": 28
+    }
+  ]
+}

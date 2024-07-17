@@ -5,4 +5,4 @@ const pinia = createPinia()
 pinia.use(persist)
 
 export default pinia
-export * from '@/store/base/token.js'
+export * from './base/token.js'

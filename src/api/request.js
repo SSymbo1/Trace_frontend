@@ -2,9 +2,7 @@ import axios from 'axios';
 import {ElMessage} from "element-plus";
 import {useToken} from "@/store/index";
 import {useBackend} from "@/store/base/backend.js";
-import router from "@/store/index.js";
-
-
+import {useRouter} from 'vue-router'
 
 // 创建一个 Axios 实例
 const request = axios.create({
@@ -26,22 +24,23 @@ request.interceptors.request.use(
 
 // 封装 GET 请求
 export const get = async (url, params = {}) => {
+    let router = useRouter()
     try {
-        const response = await request.get(url, { params });
+        const response = await request.get(url, {params});
         return response.data;
     } catch (error) {
-        if ( error.response.status === 401){
+        if (error.response.status === 401) {
             console.log(error)
             const tokenStore = useToken()
             tokenStore.removeToken()
             ElMessage.error({
-                message:'登录失效，请重新登录',
+                message: '登录失效，请重新登录',
                 grouping: true,
             })
             router.push('/login')
-        }else if (error.response.status === 500){
+        } else if (error.response.status === 500) {
             ElMessage.error({
-                message:'服务器出错啦',
+                message: '服务器出错啦',
                 grouping: true,
             })
         }
@@ -50,22 +49,23 @@ export const get = async (url, params = {}) => {
 
 // 封装 POST 请求
 export const post = async (url, data = {}) => {
+    let router = useRouter()
     try {
         const response = await request.post(url, data);
         return response.data;
     } catch (error) {
-        if ( error.response.status === 401){
+        if (error.response.status === 401) {
             console.log(error)
             const tokenStore = useToken()
             tokenStore.removeToken()
             ElMessage.error({
-                message:'登录失效，请重新登录',
+                message: '登录失效，请重新登录',
                 grouping: true,
             })
             router.push('/login')
-        }else if (error.response.status === 500){
+        } else if (error.response.status === 500) {
             ElMessage.error({
-                message:'服务器出错啦',
+                message: '服务器出错啦',
                 grouping: true,
             })
         }
@@ -74,22 +74,23 @@ export const post = async (url, data = {}) => {
 
 // 封装 PUT 请求
 export const put = async (url, data = {}) => {
+    let router = useRouter()
     try {
         const response = await request.put(url, data);
         return response.data;
     } catch (error) {
-        if ( error.response.status === 401){
+        if (error.response.status === 401) {
             console.log(error)
             const tokenStore = useToken()
             tokenStore.removeToken()
             ElMessage.error({
-                message:'登录失效，请重新登录',
+                message: '登录失效，请重新登录',
                 grouping: true,
             })
             router.push('/login')
-        }else if (error.response.status === 500){
+        } else if (error.response.status === 500) {
             ElMessage.error({
-                message:'服务器出错啦',
+                message: '服务器出错啦',
                 grouping: true,
             })
         }
@@ -98,22 +99,23 @@ export const put = async (url, data = {}) => {
 
 // 封装 DELETE 请求
 export const del = async (url, data = {}) => {
+    let router = useRouter()
     try {
-        const response = await request.delete(url, { data });
+        const response = await request.delete(url, {data});
         return response.data;
     } catch (error) {
-        if ( error.response.status === 401){
+        if (error.response.status === 401) {
             console.log(error)
             const tokenStore = useToken()
             tokenStore.removeToken()
             ElMessage.error({
-                message:'登录失效，请重新登录',
+                message: '登录失效，请重新登录',
                 grouping: true,
             })
             router.push('/login')
-        }else if (error.response.status === 500){
+        } else if (error.response.status === 500) {
             ElMessage.error({
-                message:'服务器出错啦',
+                message: '服务器出错啦',
                 grouping: true,
             })
         }

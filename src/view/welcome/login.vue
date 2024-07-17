@@ -7,7 +7,11 @@ import Slide_security from "@/view/component/slide_security.vue";
 import {ElMessage} from "element-plus";
 import {getPictureCaptcha, userLogin} from "@/api/welcome/welcome.js";
 import {useRemember} from "@/store/base/remember.js";
+import {useToken} from "@/store/index";
+import {useRouter} from 'vue-router'
 
+const useTokenStore = useToken()
+const router = useRouter()
 let vantaEffect = null
 const area = ref(null)
 const showVerity = ref(false)
@@ -48,7 +52,6 @@ const onSlideSecuritySuccess = () => {
     grouping: true,
     message: "验证成功"
   })
-  requestPictureCaptcha()
 }
 
 // 处理滑块验证失败
@@ -105,7 +108,11 @@ const login = async () => {
           grouping: true,
           message: resp.msg
         })
-      }else {
+        useTokenStore.setToken(resp.data.token)
+        setTimeout(() => {
+          router.push('/');
+        }, 1500);
+      } else {
         ElMessage.error({
           grouping: true,
           message: resp.msg
@@ -113,7 +120,6 @@ const login = async () => {
         requestPictureCaptcha()
       }
     })
-
   }
 }
 
@@ -121,6 +127,7 @@ const login = async () => {
 onActivated(() => {
   vantaInit()
   rememberMe()
+  requestPictureCaptcha()
 })
 
 onDeactivated(() => {
@@ -128,6 +135,8 @@ onDeactivated(() => {
   if (vantaEffect) {
     vantaEffect.destroy()
   }
+  showVerity.value = false
+  formData.value = {}
 })
 </script>
 

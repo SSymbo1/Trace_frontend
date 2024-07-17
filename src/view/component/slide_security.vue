@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineEmits } from "vue";
+import {defineEmits, onDeactivated, ref} from "vue";
 
 const emit = defineEmits(["success", "failed"]);
 const leftP = ref("0");
@@ -45,6 +45,13 @@ const onMouseLeave = (e) => {
     emit("failed");
   }
 };
+
+onDeactivated(() => {
+  leftP.value = "0"
+  blockState.value = 0
+  startP.value = undefined
+  sliderContainer.value = undefined
+})
 </script>
 
 <template>
@@ -82,6 +89,7 @@ const onMouseLeave = (e) => {
   -ms-user-select: none;
   -webkit-user-select: none;
 }
+
 .slider-verify-complete {
   width: 0;
   height: 40px;
@@ -90,6 +98,7 @@ const onMouseLeave = (e) => {
   left: 0;
   top: 0;
 }
+
 .slider-verify-block {
   width: 40px;
   height: 40px;

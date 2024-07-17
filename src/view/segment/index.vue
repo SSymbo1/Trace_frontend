@@ -1,0 +1,173 @@
+<script setup>
+import welcomeLabel from "@/json/welcome.json";
+import homeLabel from "@/json/home.json";
+import {ElMessage, ElMessageBox} from "element-plus";
+import {useRouter} from "vue-router";
+import {useToken} from "@/store/index.js";
+import {ref} from "vue";
+
+const useTokenStore = useToken()
+const router = useRouter()
+const userinfo = ref({})
+const menue = ref();
+
+const dropdownMenuProcess = (command) => {
+  switch (command) {
+    case 'home': {
+      router.push("/")
+      break
+    }
+    case 'profile': {
+      break
+    }
+    case 'change': {
+      break
+    }
+    case 'logout': {
+      logout()
+      break
+    }
+  }
+}
+
+const logout = async () => {
+  await ElMessageBox.confirm('您确定要退出吗?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  })
+  ElMessage.success("再见!")
+  useTokenStore.removeToken()
+  router.push("/login")
+}
+</script>
+
+<template>
+  <el-container class="container">
+
+    <el-aside width="200px" class="menue">
+      <!--   侧边菜单   -->
+      <el-menu
+          active-text-color="#409EFF"
+          background-color="#545c64"
+          :default-active="$route.path"
+          text-color="#ffffff"
+          style="height: 100vh">
+        <template v-for="item in menue" :key="item.path">
+          <el-sub-menu :index="item.path" v-if="item.children">
+            <template #title>
+              <el-icon>
+                <component :is="item.icon"></component>
+              </el-icon>
+              <span>{{ item.name }}</span>
+            </template>
+            <el-menu-item v-for="child in item.children" :index="child.path" @click="router.push(child.path)">
+              {{ child.name }}
+            </el-menu-item>
+          </el-sub-menu>
+          <el-menu-item v-else @click="router.push(item.path)">{{ item.name }}</el-menu-item>
+        </template>
+      </el-menu>
+    </el-aside>
+
+    <el-container>
+
+      <!--  顶部导航栏  -->
+      <el-header>
+        <el-menu
+            mode="horizontal"
+            :ellipsis="false">
+          <el-menu-item index="0">
+            <img
+                style="width: 50px"
+                src="/vite.svg"
+                alt="Element logo"
+                :title="welcomeLabel.site_title[0]"
+            />
+            <span class="site-title">{{ welcomeLabel.site_title[0] }}</span>
+            <span style="margin-left: 15px;font-weight: bold;color: #A8ABB2">追溯环节管理</span>
+          </el-menu-item>
+          <div class="flex-grow"/>
+          <el-menu-item index="1">
+            <el-dropdown @command="dropdownMenuProcess">
+              <span>
+                <el-avatar :src="userinfo.avatar"></el-avatar>
+                <el-icon><CaretBottom/></el-icon>
+              </span>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item
+                      v-for="label in homeLabel.header_menu"
+                      :key="label.index"
+                      :command="label.command"
+                      :icon="label.icon">
+                    {{ label.name }}
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </el-menu-item>
+        </el-menu>
+      </el-header>
+
+      <!--主体内容（中心）-->
+      <el-main>
+        <router-view v-slot="{ Component }">
+          <transition name="fade" mode="out-in" appear>
+            <Suspense>
+              <keep-alive>
+                <component :is="Component"/>
+              </keep-alive>
+            </Suspense>
+          </transition>
+        </router-view>
+      </el-main>
+
+    </el-container>
+
+  </el-container>
+</template>
+
+<style scoped lang="scss">
+.flex-grow {
+  flex-grow: 1;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 1s ease;
+}
+
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+
+.main_container {
+  height: 85vh
+}
+
+.menue {
+  height: 100%;
+}
+
+.footer {
+  text-align: center;
+  font-family: 'PingFang SC', serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.el-aside::-webkit-scrollbar {
+  display: none;
+}
+
+.el-main::-webkit-scrollbar {
+  display: none;
+}
+
+.site-title {
+  margin-left: 15px;
+  font-size: large;
+  font-weight: bold;
+}
+</style>
