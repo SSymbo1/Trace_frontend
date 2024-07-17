@@ -64,11 +64,6 @@ const requestMenue = () => {
       menue.value.forEach((item) => {
         item.icon = '/src/assets/menue_svg/' + item.icon
       })
-    } else {
-      ElMessage.error({
-        grouping: true,
-        message: '操作异常!'
-      })
     }
   })
 }
