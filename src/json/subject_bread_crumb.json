@@ -1,0 +1,44 @@
+{
+  "supplier": [
+    {
+      "name": "首页",
+      "path": "/subject/home"
+    },
+    {
+      "name": "主体信息备案",
+      "path": "/subject/bulk"
+    },
+    {
+      "name": "供应商备案",
+      "path": "/subject/bulk/supplier"
+    }
+  ],
+  "vendors": [
+    {
+      "name": "首页",
+      "path": "/subject/home"
+    },
+    {
+      "name": "主体信息备案",
+      "path": "/subject/bulk"
+    },
+    {
+      "name": "供销商备案",
+      "path": "/subject/bulk/vendors"
+    }
+  ],
+  "filings": [
+    {
+      "name": "首页",
+      "path": "/subject/home"
+    },
+    {
+      "name": "产品信息备案",
+      "path": "/subject/product"
+    },
+    {
+      "name": "产品备案",
+      "path": "/subject/product/filings"
+    }
+  ]
+}

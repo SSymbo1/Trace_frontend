@@ -1,17 +1,21 @@
 <script setup>
-
+import zhCn from 'element-plus/es/locale/lang/zh-cn.mjs'
+const locale = zhCn
 </script>
 
 <template>
-  <router-view v-slot="{ Component }">
-    <transition name="fade" mode="out-in" appear>
-      <Suspense>
-        <keep-alive>
-          <component :is="Component" />
-        </keep-alive>
-      </Suspense>
-    </transition>
-  </router-view>
+  <el-config-provider :locale="locale">
+    <router-view v-slot="{ Component }">
+      <transition name="fade" mode="out-in" appear>
+        <Suspense>
+          <keep-alive>
+            <component :is="Component"/>
+          </keep-alive>
+        </Suspense>
+      </transition>
+    </router-view>
+  </el-config-provider>
+
 </template>
 
 <style scoped lang="scss">

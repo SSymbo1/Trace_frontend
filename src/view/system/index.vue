@@ -77,7 +77,7 @@ const logout = async () => {
         <el-menu
             mode="horizontal"
             :ellipsis="false">
-          <el-menu-item index="0">
+          <el-menu-item index="0" @click="router.push('/')">
             <img
                 style="width: 50px"
                 src="/vite.svg"

@@ -1,0 +1,30 @@
+{
+  "data": [
+    {
+      "name": "首页",
+      "path": "/monitor/home"
+    },
+    {
+      "name": "运行监测管理",
+      "path": "/monitor/manage"
+    },
+    {
+      "name": "采集数据汇总",
+      "path": "/monitor/manage/summary"
+    }
+  ],
+  "summary": [
+    {
+      "name": "首页",
+      "path": "/monitor/home"
+    },
+    {
+      "name": "运行监测管理",
+      "path": "/monitor/manage"
+    },
+    {
+      "name": "环节类型数据",
+      "path": "/monitor/manage/data"
+    }
+  ]
+}

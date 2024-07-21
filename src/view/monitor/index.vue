@@ -4,7 +4,8 @@ import homeLabel from "@/json/home.json";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {useRouter} from "vue-router";
 import {useToken} from "@/store/index.js";
-import {ref} from "vue";
+import {onActivated, ref} from "vue";
+import {getMonitorMenue, getSubjectMenue} from "@/api/menue/menue.js";
 
 const useTokenStore = useToken()
 const router = useRouter()
@@ -30,6 +31,14 @@ const dropdownMenuProcess = (command) => {
   }
 }
 
+const requestMenue = () => {
+  getMonitorMenue().then(resp => {
+    if (resp.code === 200) {
+      menue.value = resp.data.menue
+    }
+  })
+}
+
 const logout = async () => {
   await ElMessageBox.confirm('您确定要退出吗?', '提示', {
     confirmButtonText: '确定',
@@ -40,6 +49,10 @@ const logout = async () => {
   useTokenStore.removeToken()
   router.push("/login")
 }
+
+onActivated(() => {
+  requestMenue()
+})
 </script>
 
 <template>
@@ -77,7 +90,7 @@ const logout = async () => {
         <el-menu
             mode="horizontal"
             :ellipsis="false">
-          <el-menu-item index="0">
+          <el-menu-item index="0" @click="router.push('/')">
             <img
                 style="width: 50px"
                 src="/vite.svg"
