@@ -9,13 +9,16 @@ import {useRouter} from "vue-router";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {getHomeMenue} from "@/api/menue/menue.js";
 import Home_statistics from "@/view/echarts/home_statistics.vue";
+import {useAccountStore} from "@/store/base/account.js";
 
 const useTokenStore = useToken()
 const router = useRouter()
-const userinfo = ref({})
 const dataCollect = ref([])
 const menue = ref([])
+const account = ref({})
 
+// todo 数据卡片数据请求
+// 数据卡片数据请求和处理
 const dataProcess = () => {
   dataCollect.value = homeLabel.info_collect_card
   dataCollect.value.forEach((data) => {
@@ -27,6 +30,7 @@ const dataProcess = () => {
   })
 }
 
+// 顶部头像下拉菜单选项
 const dropdownMenuProcess = (command) => {
   switch (command) {
     case 'home': {
@@ -46,6 +50,7 @@ const dropdownMenuProcess = (command) => {
   }
 }
 
+// 退出登录
 const logout = async () => {
   await ElMessageBox.confirm('您确定要退出吗?', '提示', {
     confirmButtonText: '确定',
@@ -54,10 +59,17 @@ const logout = async () => {
   })
   ElMessage.success("再见!")
   useTokenStore.removeToken()
+  useAccountStore().removeAccount()
   router.push("/login")
 }
 
-const requestMenue = () => {
+// 获取当前用户信息
+const whoIam = () => {
+  account.value = useAccountStore().account
+}
+
+// 获取首页菜单项
+const requestMenue = async () => {
   getHomeMenue().then(resp => {
     if (resp.code === 200) {
       menue.value = resp.data.homeMenu
@@ -69,6 +81,7 @@ const requestMenue = () => {
 }
 
 onActivated(() => {
+  whoIam()
   dataProcess()
   requestMenue()
 })
@@ -97,7 +110,7 @@ onActivated(() => {
         <el-menu-item index="1">
           <el-dropdown @command="dropdownMenuProcess">
               <span>
-                <el-avatar :src="userinfo.avatar"></el-avatar>
+                <el-avatar :src="account.avatar"></el-avatar>
                 <el-icon><CaretBottom/></el-icon>
               </span>
             <template #dropdown>
@@ -119,6 +132,7 @@ onActivated(() => {
     <!--  主体内容  -->
     <el-main class="main-container">
 
+      <!--  菜单项  -->
       <div class="role-menu">
         <page_container title="菜单选项栏" class="header-menu">
           <div class="menu-container">
@@ -135,6 +149,7 @@ onActivated(() => {
         </page_container>
       </div>
 
+      <!--  数据展示卡片   -->
       <div class="info-card-container">
         <div class="info-card"
              v-for="card in dataCollect"
@@ -146,6 +161,7 @@ onActivated(() => {
         </div>
       </div>
 
+      <!--   echarts数据统计柱状图   -->
       <div class="info-statistics">
         <page_container title="数据统计柱状图">
           <home_statistics></home_statistics>

@@ -6,12 +6,14 @@ import {useRouter} from "vue-router";
 import {useToken} from "@/store/index.js";
 import {onActivated, ref} from "vue";
 import {getMonitorMenue, getSubjectMenue} from "@/api/menue/menue.js";
+import {useAccountStore} from "@/store/base/account.js";
 
 const useTokenStore = useToken()
 const router = useRouter()
-const userinfo = ref({})
 const menue = ref();
+const account = ref({})
 
+// 顶部头像下拉菜单选项
 const dropdownMenuProcess = (command) => {
   switch (command) {
     case 'home': {
@@ -31,6 +33,7 @@ const dropdownMenuProcess = (command) => {
   }
 }
 
+// 请求子功能菜单
 const requestMenue = () => {
   getMonitorMenue().then(resp => {
     if (resp.code === 200) {
@@ -39,6 +42,7 @@ const requestMenue = () => {
   })
 }
 
+// 退出登录
 const logout = async () => {
   await ElMessageBox.confirm('您确定要退出吗?', '提示', {
     confirmButtonText: '确定',
@@ -47,10 +51,17 @@ const logout = async () => {
   })
   ElMessage.success("再见!")
   useTokenStore.removeToken()
+  useAccountStore().removeAccount()
   router.push("/login")
 }
 
+// 获取当前用户信息
+const whoIam = () => {
+  account.value = useAccountStore().account
+}
+
 onActivated(() => {
+  whoIam()
   requestMenue()
 })
 </script>
@@ -104,7 +115,7 @@ onActivated(() => {
           <el-menu-item index="1">
             <el-dropdown @command="dropdownMenuProcess">
               <span>
-                <el-avatar :src="userinfo.avatar"></el-avatar>
+                <el-avatar :src="account.avatar"></el-avatar>
                 <el-icon><CaretBottom/></el-icon>
               </span>
               <template #dropdown>

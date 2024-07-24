@@ -15,6 +15,9 @@ const router = createRouter({
             path: '/system', redirect: '/system/home', component: () => import('@/view/system/index.vue'),
             children: [
                 {path: '/system/home', component: () => import('@/view/system/home.vue')},
+                {path: '/system/account', redirect: '/system/account/user'},
+                {path: '/system/account/user', component: () => import('@/view/system/account/user.vue')},
+                {path: '/system/account/role', component: () => import('@/view/system/account/role.vue')},
             ]
         },
         {

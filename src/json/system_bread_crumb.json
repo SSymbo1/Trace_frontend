@@ -1,0 +1,30 @@
+{
+  "user": [
+    {
+      "name": "首页",
+      "path": "/system/home"
+    },
+    {
+      "name": "用户权限管理",
+      "path": "/system/account"
+    },
+    {
+      "name": "用户管理",
+      "path": "/system/account/user"
+    }
+  ],
+  "role": [
+    {
+      "name": "首页",
+      "path": "/system/home"
+    },
+    {
+      "name": "用户权限管理",
+      "path": "/system/account"
+    },
+    {
+      "name": "权限管理",
+      "path": "/system/account/role"
+    }
+  ]
+}

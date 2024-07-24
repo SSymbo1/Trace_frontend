@@ -19,3 +19,7 @@ export const getMonitorMenue = () => {
 export const getSegmentMenue = () => {
     return request.get('/menue/segment')
 }
+
+export const getSystemMenue = () => {
+    return request.get('/menue/system')
+}

@@ -3,6 +3,7 @@ import {ElMessage} from "element-plus";
 import {useToken} from "@/store/index";
 import {useBackend} from "@/store/base/backend.js";
 import router from "@/router/index.js";
+import {useAccountStore} from "@/store/base/account.js";
 
 // 创建一个 Axios 实例
 const request = axios.create({
@@ -67,7 +68,9 @@ const handleError = async (error) => {
     const errorData = error.response.data.data
     if (errorData.info.code === 401 || errorData.info.code === 402) {
         const tokenStore = useToken()
+        const accountStore=useAccountStore()
         tokenStore.removeToken()
+        accountStore.removeAccount()
         ElMessage.error({
             message: error.response.data.msg,
             grouping: true,

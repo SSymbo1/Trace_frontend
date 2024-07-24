@@ -9,6 +9,8 @@ import {getPictureCaptcha, userLogin} from "@/api/welcome/welcome.js";
 import {useRemember} from "@/store/base/remember.js";
 import {useToken} from "@/store/index";
 import {useRouter} from 'vue-router'
+import {getWhoIs} from "@/api/common/common.js";
+import {useAccountStore} from "@/store/base/account.js";
 
 const useTokenStore = useToken()
 const router = useRouter()
@@ -109,6 +111,9 @@ const login = async () => {
           message: resp.msg
         })
         useTokenStore.setToken(resp.data.token)
+        getWhoIs().then(resp => {
+          useAccountStore().setAccount(resp.data.login)
+        })
         setTimeout(() => {
           router.push('/');
         }, 1500);
