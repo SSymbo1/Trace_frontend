@@ -63,12 +63,29 @@ export const del = async (url, data = {}) => {
     }
 };
 
+// 封装文件上传请求
+export const file = async (url, data = {}) => {
+    const tokenStore = useToken()
+    const config = {
+        headers: {
+            'token': tokenStore.token,
+            'Content-Type': 'multipart/form-data'
+        }
+    }
+    try {
+        const response = await request.post(url, data, config);
+        return response.data
+    } catch (error) {
+        await handleError(error)
+    }
+}
+
 const handleError = async (error) => {
     console.log(error.response)
     const errorData = error.response.data.data
     if (errorData.info.code === 401 || errorData.info.code === 402) {
         const tokenStore = useToken()
-        const accountStore=useAccountStore()
+        const accountStore = useAccountStore()
         tokenStore.removeToken()
         accountStore.removeAccount()
         ElMessage.error({
@@ -90,4 +107,5 @@ export default {
     post,
     put,
     del,
+    file
 };

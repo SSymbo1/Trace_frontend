@@ -5,7 +5,7 @@
       "path": "/system/home"
     },
     {
-      "name": "用户权限管理",
+      "name": "平台数据管理",
       "path": "/system/account"
     },
     {
@@ -19,12 +19,40 @@
       "path": "/system/home"
     },
     {
-      "name": "用户权限管理",
+      "name": "平台数据管理",
       "path": "/system/account"
     },
     {
       "name": "权限管理",
       "path": "/system/account/role"
+    }
+  ],
+  "enterprise": [
+    {
+      "name": "首页",
+      "path": "/system/home"
+    },
+    {
+      "name": "平台数据管理",
+      "path": "/system/account"
+    },
+    {
+      "name": "公司管理",
+      "path": "/system/account/enterprise"
+    }
+  ],
+  "sensitive_account": [
+    {
+      "name": "首页",
+      "path": "/system/home"
+    },
+    {
+      "name": "敏感操作记录",
+      "path": "/system/sensitive"
+    },
+    {
+      "name": "账户敏感操作记录",
+      "path": "/system/sensitive/account"
     }
   ]
 }

@@ -18,6 +18,9 @@ const router = createRouter({
                 {path: '/system/account', redirect: '/system/account/user'},
                 {path: '/system/account/user', component: () => import('@/view/system/account/user.vue')},
                 {path: '/system/account/role', component: () => import('@/view/system/account/role.vue')},
+                {path: '/system/account/enterprise', component: () => import('@/view/system/account/enterprise.vue')},
+                {path: '/system/sensitive', redirect: '/system/sensitive/account'},
+                {path: '/system/sensitive/account', component: () => import('@/view/system/sensitive/account.vue')},
             ]
         },
         {
@@ -26,7 +29,10 @@ const router = createRouter({
                 {path: '/analysis/home', component: () => import('@/view/analysis/home.vue')},
                 {path: '/analysis/industry', redirect: '/analysis/industry/market'},
                 {path: '/analysis/industry/market', component: () => import('@/view/analysis/industry/market.vue')},
-                {path: '/analysis/industry/wholesale', component: () => import('@/view/analysis/industry/wholesale.vue')},
+                {
+                    path: '/analysis/industry/wholesale',
+                    component: () => import('@/view/analysis/industry/wholesale.vue')
+                },
                 {path: '/analysis/industry/process', component: () => import('@/view/analysis/industry/process.vue')},
                 {path: '/analysis/industry/struct', component: () => import('@/view/analysis/industry/struct.vue')},
                 {path: '/analysis/market', redirect: '/analysis/market/operations'},

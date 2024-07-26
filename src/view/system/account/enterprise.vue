@@ -1,9 +1,10 @@
 <script setup>
+
 import Page_container from "@/view/component/page_container.vue";
 import bread from '@/json/system_bread_crumb.json'
 import router from "@/router/index.js";
 
-const tabBread =ref(bread.role)
+const tabBread =ref(bread.enterprise)
 </script>
 
 <template>

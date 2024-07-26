@@ -1,11 +1,13 @@
 <script setup>
 import {ref} from "vue";
-import {avatarUpload} from "@/api/file/file_upload.js";
-import {ElMessage, ElNotification} from "element-plus";
 import {enterpriseSubMenue, roleSubMenue} from "@/api/menue/sub_menue.js";
 import {Delete, Edit} from "@element-plus/icons-vue";
-import {getAccountEditInfo} from "@/api/common/common.js";
-import {editAccountInfo} from "@/api/system/account.js";
+import {ElMessage} from "element-plus";
+import axios from "axios";
+import {useBackend} from "@/store/base/backend.js";
+import {useToken} from "@/store/index.js";
+import {avatarUpload} from "@/api/file/file_upload.js";
+import {addAccountInfo} from "@/api/system/account.js";
 
 const formData = ref({})
 const rules = ref({
@@ -47,45 +49,28 @@ const rules = ref({
     {max: 6, message: '邮编长度无效', trigger: 'blur'}
   ]
 })
-const drawerVisible = ref(false)
+const dialogVisible = ref(false)
 const form = ref()
 const roleMenue = ref([])
 const enterpriseMenue = ref([])
 const enterpriseKeyWord = ref('')
 const avatar = ref([])
 const avatarUrl = ref('')
-const accountId = ref()
 const emit = defineEmits(['success'])
 
 // 打开添加账户窗口
-const openDrawer = (data) => {
-  accountId.value = data.account.aid
-  getEditInfo()
+const openDialog = () => {
   getRoleMenue()
   getEnterpriseMenue()
-  drawerVisible.value = true
+  dialogVisible.value = true
 }
 
 // 关闭添加账户窗口
-const closeDrawer = () => {
+const closeDialog = () => {
   initFormData()
   roleMenue.value = []
   enterpriseMenue.value = []
-  drawerVisible.value = false
-}
-
-// 获取数据回显
-const getEditInfo = () => {
-  getAccountEditInfo(accountId.value).then(resp => {
-    if (resp.code === 200) {
-      formData.value = resp.data.form
-      avatar.value = [{name: '头像', url: formData.value.avatar}]
-      let url = formData.value.avatar
-      let parts = url.split('/avatar/')
-      avatarUrl.value = parts[1]
-      formData.value.avatar = avatarUrl.value
-    }
-  })
+  dialogVisible.value = false
 }
 
 // 获取角色列表
@@ -155,33 +140,25 @@ const handleSubmitAvatar = async (files) => {
 // 提交表单数据
 const submitFormData = async () => {
   await form.value.validate()
-  formData.value = {...formData.value, aid: accountId.value, avatar: avatarUrl.value}
-  editAccountInfo(formData.value).then(resp => {
+  formData.value = {...formData.value, avatar: avatarUrl.value}
+  addAccountInfo(formData.value).then(resp => {
     if (resp.code === 200) {
-      ElNotification.success({
-        title: '成功',
-        message: resp.msg,
-        offset: 48
-      })
+      ElMessage.success(resp.msg)
       emit('success')
+      closeDialog()
     } else {
-      ElNotification.error({
-        title: '失败',
-        message: resp.msg,
-        offset: 48
-      })
+      ElMessage.error(resp.msg)
     }
-    closeDrawer()
   })
 }
 
 defineExpose({
-  openDrawer
+  openDialog
 })
 </script>
 
 <template>
-  <el-drawer title="编辑账户" v-model="drawerVisible" size="30%" @close="closeDrawer">
+  <el-dialog title="添加账户" v-model="dialogVisible" width="27%" @close="closeDialog">
     <el-form
         :model="formData"
         :rules="rules"
@@ -267,7 +244,7 @@ defineExpose({
       <el-button type="success" :icon="Edit" @click="submitFormData">提交</el-button>
       <el-button type="primary" :icon="Delete" @click="initFormData">重置</el-button>
     </div>
-  </el-drawer>
+  </el-dialog>
 </template>
 
 <style scoped lang="scss">

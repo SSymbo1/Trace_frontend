@@ -5,7 +5,11 @@ import Page_container from "@/view/component/page_container.vue";
 import {Document, Edit, Plus, Search, Setting} from "@element-plus/icons-vue";
 import {onActivated, ref} from "vue";
 import {getAccountInfoPaged} from "@/api/system/account.js";
-import User_info from "@/view/system/account/drawer/account_info.vue";
+import Account_info from "@/view/system/account/drawer/account_info.vue";
+import Account_add from "@/view/system/account/dialog/account_add.vue";
+import Account_advanced_search from "@/view/system/account/drawer/account_advanced_search.vue";
+import Account_set from "@/view/system/account/drawer/account_set.vue";
+import Account_edit from "@/view/system/account/drawer/account_edit.vue";
 
 const tabBread = ref(bread.user)
 const data = ref()
@@ -15,8 +19,8 @@ const query = ref({
   currentPage: 1,
   name: '',
   address: '',
-  ban: false,
-  del: false,
+  ban: 0,
+  del: 0,
   email: '',
   gander: '',
   role: '',
@@ -24,6 +28,11 @@ const query = ref({
   zipCode: ''
 })
 const info = ref()
+const add = ref()
+const search = ref()
+const set = ref()
+const edit = ref()
+const loading = ref(true)
 
 // 分页器：页面内容大小切换
 const onSizeChange = (value) => {
@@ -38,14 +47,63 @@ const onCurrentChange = (value) => {
 // 搜索用户信息
 const requestAccountInfo = async () => {
   getAccountInfoPaged(query.value).then(resp => {
-    query.value.total = resp.data.iPage.total
-    query.value.pageSize = resp.data.iPage.size
-    data.value = resp.data.iPage.records
+    loading.value = true
+    if (resp.code===200){
+      query.value.total = resp.data.iPage.total
+      query.value.pageSize = resp.data.iPage.size
+      data.value = resp.data.iPage.records
+      loading.value = false
+    }
   })
 }
 
+// 打开用户信息drawer
 const openAccountInfoDrawer = (data) => {
   info.value.openDrawer(data)
+}
+
+// 打开添加账户dialog
+const openAccountAddDialog = () => {
+  add.value.openDialog()
+}
+
+// 打开高级搜索drawer
+const openAccountAdvancedSearchDrawer = (condition) => {
+  search.value.openDrawer(condition)
+}
+
+// 打开账户状态设置drawer
+const openAccountSetDrawer = (data) => {
+  set.value.openDrawer(data)
+}
+
+// 打开账户编辑drawer
+const openAccountEditDrawer = (data) => {
+  edit.value.openDrawer(data)
+}
+
+// 添加账户成功回调
+const addAccountSuccessHandler = () => {
+  query.value.currentPage = 1
+  requestAccountInfo()
+}
+
+// 高级搜索成功回调
+const editAccountSuccessHandler = () => {
+  query.value.currentPage = 1
+  requestAccountInfo()
+}
+
+// 账户状态设置成功回调
+const setAccountStatueSuccessHandler = () => {
+  query.value.currentPage = 1
+  requestAccountInfo()
+}
+
+// 高级搜素条件回调
+const advanceSearchHandler = (condition) => {
+  query.value = condition
+  requestAccountInfo()
 }
 
 onActivated(() => {
@@ -80,16 +138,16 @@ onActivated(() => {
       <el-row>
         <el-col :span="7">
           <el-form-item>
-            <el-input v-model="query.name" clearable placeholder="用户姓名">
+            <el-input v-model="query.name" clearable placeholder="用户姓名或用户名">
               <template #append>
-                <el-button :icon="Search"/>
+                <el-button :icon="Search" @click="requestAccountInfo"/>
               </template>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-button type="success" :icon="Search">高级搜索</el-button>
-          <el-button type="primary" :icon="Plus">添加账户</el-button>
+          <el-button type="success" :icon="Search" @click="openAccountAdvancedSearchDrawer(query)">高级搜索</el-button>
+          <el-button type="primary" :icon="Plus" @click="openAccountAddDialog">添加账户</el-button>
         </el-col>
       </el-row>
       <el-divider/>
@@ -97,6 +155,7 @@ onActivated(() => {
 
     <!--  数据展示  -->
     <el-table
+        v-loading="loading"
         :data="data"
         style="min-width: 100%; margin-top: 10px"
         :row-style="{ height: '50px' }"
@@ -109,6 +168,7 @@ onActivated(() => {
           <el-avatar :src="avatar"></el-avatar>
         </template>
       </el-table-column>
+      <el-table-column label="姓名" prop="name"></el-table-column>
       <el-table-column label="用户名" prop="account.username"></el-table-column>
       <el-table-column label="所属单位" prop="enterprise.name"></el-table-column>
       <el-table-column label="电话号" prop="tel"></el-table-column>
@@ -126,10 +186,10 @@ onActivated(() => {
       <el-table-column label="操作" width="150px">
         <template #default="scope">
           <el-tooltip content="编辑" effect="light">
-            <el-button type="primary" :icon="Edit" circle/>
+            <el-button type="primary" :icon="Edit" circle @click="openAccountEditDrawer(scope.row)"/>
           </el-tooltip>
           <el-tooltip content="设置" effect="light">
-            <el-button type="success" :icon="Setting" circle/>
+            <el-button type="success" :icon="Setting" circle @click="openAccountSetDrawer(scope.row)"/>
           </el-tooltip>
           <el-tooltip content="详细信息" effect="light">
             <el-button type="warning" :icon="Document" circle @click="openAccountInfoDrawer(scope.row)"/>
@@ -154,7 +214,20 @@ onActivated(() => {
         style="margin-top: 20px; justify-content: flex-end"
     />
 
-    <user_info ref="info"></user_info>
+    <!--  账户信息编辑  -->
+    <account_edit ref="edit" @success="editAccountSuccessHandler"></account_edit>
+
+    <!--  账户状态设置  -->
+    <account_set ref="set" @success="setAccountStatueSuccessHandler"></account_set>
+
+    <!--  高级搜素  -->
+    <account_advanced_search ref="search" @update:data="advanceSearchHandler"></account_advanced_search>
+
+    <!--  添加账户  -->
+    <Account_add ref="add" @success="addAccountSuccessHandler"></Account_add>
+
+    <!--  详细信息  -->
+    <Account_info ref="info"></Account_info>
 
   </page_container>
 </template>

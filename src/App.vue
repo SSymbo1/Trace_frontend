@@ -15,7 +15,6 @@ const locale = zhCn
       </transition>
     </router-view>
   </el-config-provider>
-
 </template>
 
 <style scoped lang="scss">

@@ -1,17 +1,33 @@
 <script setup>
 import {ref} from "vue";
+import Captcha from "@/view/system/account/dialog/captcha.vue";
 
+const isDecode = ref(false)
 const drawerVisible = ref(false);
 const data = ref({})
+const captcha = ref()
+const password = ref('')
 
 const openDrawer = (queryData) => {
   data.value = queryData
+  password.value = queryData.account.password
   drawerVisible.value = true
 }
 
 const closeDrawer = () => {
-  data.value = {}
   drawerVisible.value = false
+  isDecode.value = false
+}
+
+const openCaptchaDialog = (aid) => {
+  if (isDecode.value === false) {
+    captcha.value.openDialog(password.value, aid)
+  }
+}
+
+const handlePasswordEncode = (decode) => {
+  isDecode.value = true
+  password.value = decode
 }
 
 defineExpose({
@@ -20,19 +36,23 @@ defineExpose({
 </script>
 
 <template>
-  <el-drawer title="用户详细信息" v-model="drawerVisible" size="40%" @close="closeDrawer">
+  <el-drawer title="用户详细信息" v-model="drawerVisible" size="42%" @close="closeDrawer">
     <el-descriptions :column="2" border direction="horizontal">
       <el-descriptions-item label="姓名" label-align="center">
         <el-text class="show-text">{{ data.name }}</el-text>
       </el-descriptions-item>
       <el-descriptions-item label="性别" label-align="center">
-        <el-text class="show-text">{{ data.gander}}</el-text>
+        <el-text class="show-text">{{ data.gander }}</el-text>
       </el-descriptions-item>
       <el-descriptions-item label="用户名" label-align="center">
         <el-text class="show-text">{{ data.account.username }}</el-text>
       </el-descriptions-item>
       <el-descriptions-item label="密码" label-align="center">
-        <el-text class="show-text">{{ data.account.password }}</el-text>
+        <el-tooltip content="点击查看密码" effect="light" placement="top">
+          <el-text class="show-text" @click="openCaptchaDialog(data.account.aid)" style="cursor: pointer">
+            {{ password }}
+          </el-text>
+        </el-tooltip>
       </el-descriptions-item>
       <el-descriptions-item label="账户状态" label-align="center">
         <el-tag type="success" v-if="data.account.ban===0" size="large">启用</el-tag>
@@ -69,12 +89,15 @@ defineExpose({
         <el-text class="show-text">{{ data.enterprise.zipCode }}</el-text>
       </el-descriptions-item>
       <el-descriptions-item label="社会信用代码" label-align="center">
-        <el-text class="show-text">{{ data.enterprise.socialCode}}</el-text>
+        <el-text class="show-text">{{ data.enterprise.socialCode }}</el-text>
       </el-descriptions-item>
       <el-descriptions-item label="备注" label-align="center">
         <el-text class="show-text">{{ data.account.memo }}</el-text>
       </el-descriptions-item>
     </el-descriptions>
+
+    <captcha ref="captcha" @update:data="handlePasswordEncode"></captcha>
+
   </el-drawer>
 </template>
 
