@@ -89,13 +89,13 @@ const handleError = async (error) => {
         tokenStore.removeToken()
         accountStore.removeAccount()
         ElMessage.error({
-            message: error.response.data.msg,
+            message: error.response.data.message,
             grouping: true,
         })
         await router.push('/login')
     } else {
         ElMessage.error({
-            message: error.response.data.msg,
+            message: error.response.data.message,
             grouping: true,
         })
     }

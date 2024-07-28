@@ -10,7 +10,6 @@ const emit = defineEmits(['update:data'])
 
 const openDrawer = (advance) => {
   formData.value = advance
-  console.log(formData.value)
   getRoleMenue()
   drawerVisible.value = true
 }

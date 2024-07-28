@@ -33,14 +33,14 @@ const submitFormData = async () => {
     if (resp.code===200){
       ElNotification.success({
         title: '成功',
-        message: resp.msg,
+        message: resp.message,
         offset: 48
       })
       emit('success')
     }else {
       ElNotification.error({
         title: '失败',
-        message: resp.msg,
+        message: resp.message,
         offset: 48
       })
     }

@@ -1,12 +1,11 @@
 <script setup>
 import Page_container from "@/view/component/page_container.vue";
-import {onActivated, ref} from "vue";
+import {ref} from "vue";
 import bread from "@/json/system_bread_crumb.json";
 import router from "@/router/index.js";
-import {Plus, Search} from "@element-plus/icons-vue";
-import {getSensitiveAccountPaged} from "@/api/system/sensitive.js";
+import {Search} from "@element-plus/icons-vue";
 
-const tabBread = ref(bread.sensitive_account)
+const tabBread = ref(bread.sensitive_role)
 const keyword = ref('')
 const pageSize = ref(5)
 const total = ref(0)
@@ -16,30 +15,12 @@ const loading = ref()
 
 // 分页器：页面内容大小切换
 const onSizeChange = (value) => {
-  requestSensitiveData()
 }
 
 // 分页器：页面切换
 const onCurrentChange = (value) => {
-  requestSensitiveData()
 }
 
-// 搜索敏感记录
-const requestSensitiveData = async () => {
-  loading.value = true
-  getSensitiveAccountPaged(keyword.value, currentPage.value, pageSize.value).then(resp => {
-    if (resp.code === 200) {
-      total.value = resp.data.iPage.total
-      pageSize.value = resp.data.iPage.size
-      data.value = resp.data.iPage.records
-      loading.value = false
-    }
-  })
-}
-
-onActivated(() => {
-  requestSensitiveData()
-})
 </script>
 
 <template>
@@ -71,7 +52,7 @@ onActivated(() => {
           <el-form-item>
             <el-input v-model="keyword" clearable placeholder="用户姓名或用户名">
               <template #append>
-                <el-button :icon="Search" @click="requestSensitiveData"/>
+                <el-button :icon="Search"/>
               </template>
             </el-input>
           </el-form-item>
@@ -96,12 +77,7 @@ onActivated(() => {
         </template>
       </el-table-column>
       <el-table-column label="操作者" prop="operator.name"></el-table-column>
-      <el-table-column label="受影响账号头像">
-        <template v-slot="{ row: { account } }">
-          <el-avatar :src="account.avatar"></el-avatar>
-        </template>
-      </el-table-column>
-      <el-table-column label="受影响者" prop="account.name"></el-table-column>
+      <el-table-column label="受影响角色" prop="account.name"></el-table-column>
       <el-table-column label="操作内容" prop="operate"></el-table-column>
       <el-table-column label="操作时间" prop="operateTime"></el-table-column>
       <template #empty>

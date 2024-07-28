@@ -45,14 +45,14 @@ const submitFormData = async () => {
     if (resp.code === 200) {
       ElMessage.success({
         grouping: true,
-        message: resp.msg
+        message: resp.message
       })
       emit('update:data', resp.data.decode)
       closeDialog()
     } else {
       ElMessage.error({
         grouping: true,
-        message: resp.msg
+        message: resp.message
       })
     }
   })

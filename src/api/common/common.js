@@ -5,9 +5,13 @@ export const getWhoIs = () => {
 }
 
 export const decodePass = (decode) => {
-    return request.post("/common/decode_password", decode)
+    return request.post("/common/decode/password", decode)
 }
 
 export const getAccountEditInfo = (accountId) => {
-    return request.get('/common/edit_account_info', {accountId})
+    return request.get('/common/account', {accountId})
+}
+
+export const getEnterpriseEditInfo = (enterpriseId) => {
+    return request.get('/common/enterprise', {enterpriseId})
 }

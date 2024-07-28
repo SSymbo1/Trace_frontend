@@ -128,11 +128,11 @@ const handleSubmitAvatar = async (files) => {
   avatar.append("avatar", files.file)
   avatarUpload(avatar).then(resp => {
     if (resp.code === 200) {
-      ElMessage.success(resp.msg)
+      ElMessage.success(resp.message)
       avatarUrl.value = resp.data.avatar.name
       console.log(avatarUrl.value)
     } else {
-      ElMessage.error(resp.msg)
+      ElMessage.error(resp.message)
     }
   })
 }
@@ -143,11 +143,11 @@ const submitFormData = async () => {
   formData.value = {...formData.value, avatar: avatarUrl.value}
   addAccountInfo(formData.value).then(resp => {
     if (resp.code === 200) {
-      ElMessage.success(resp.msg)
+      ElMessage.success(resp.message)
       emit('success')
       closeDialog()
     } else {
-      ElMessage.error(resp.msg)
+      ElMessage.error(resp.message)
     }
   })
 }

@@ -143,11 +143,11 @@ const handleSubmitAvatar = async (files) => {
   avatar.append("avatar", files.file)
   avatarUpload(avatar).then(resp => {
     if (resp.code === 200) {
-      ElMessage.success(resp.msg)
+      ElMessage.success(resp.message)
       avatarUrl.value = resp.data.avatar.name
       console.log(avatarUrl.value)
     } else {
-      ElMessage.error(resp.msg)
+      ElMessage.error(resp.message)
     }
   })
 }
@@ -160,14 +160,14 @@ const submitFormData = async () => {
     if (resp.code === 200) {
       ElNotification.success({
         title: '成功',
-        message: resp.msg,
+        message: resp.message,
         offset: 48
       })
       emit('success')
     } else {
       ElNotification.error({
         title: '失败',
-        message: resp.msg,
+        message: resp.message,
         offset: 48
       })
     }

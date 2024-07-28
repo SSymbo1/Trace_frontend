@@ -21,6 +21,8 @@ const router = createRouter({
                 {path: '/system/account/enterprise', component: () => import('@/view/system/account/enterprise.vue')},
                 {path: '/system/sensitive', redirect: '/system/sensitive/account'},
                 {path: '/system/sensitive/account', component: () => import('@/view/system/sensitive/account.vue')},
+                {path: '/system/sensitive/enterprise', component: () => import('@/view/system/sensitive/enterprise.vue')},
+                {path: '/system/sensitive/role', component: () => import('@/view/system/sensitive/role.vue')},
             ]
         },
         {

@@ -54,5 +54,33 @@
       "name": "账户敏感操作记录",
       "path": "/system/sensitive/account"
     }
+  ],
+  "sensitive_enterprise": [
+    {
+      "name": "首页",
+      "path": "/system/home"
+    },
+    {
+      "name": "敏感操作记录",
+      "path": "/system/sensitive"
+    },
+    {
+      "name": "企业敏感操作记录",
+      "path": "/system/sensitive/enterprise"
+    }
+  ],
+  "sensitive_role": [
+    {
+      "name": "首页",
+      "path": "/system/home"
+    },
+    {
+      "name": "敏感操作记录",
+      "path": "/system/sensitive"
+    },
+    {
+      "name": "角色敏感操作记录",
+      "path": "/system/sensitive/role"
+    }
   ]
 }

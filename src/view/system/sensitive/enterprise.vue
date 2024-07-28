@@ -1,12 +1,12 @@
 <script setup>
 import Page_container from "@/view/component/page_container.vue";
-import {onActivated, ref} from "vue";
+import {onActivated,ref} from "vue";
 import bread from "@/json/system_bread_crumb.json";
 import router from "@/router/index.js";
-import {Plus, Search} from "@element-plus/icons-vue";
-import {getSensitiveAccountPaged} from "@/api/system/sensitive.js";
+import {Search} from "@element-plus/icons-vue";
+import {getSensitiveEnterprisePaged} from "@/api/system/sensitive.js";
 
-const tabBread = ref(bread.sensitive_account)
+const tabBread = ref(bread.sensitive_enterprise)
 const keyword = ref('')
 const pageSize = ref(5)
 const total = ref(0)
@@ -27,7 +27,7 @@ const onCurrentChange = (value) => {
 // 搜索敏感记录
 const requestSensitiveData = async () => {
   loading.value = true
-  getSensitiveAccountPaged(keyword.value, currentPage.value, pageSize.value).then(resp => {
+  getSensitiveEnterprisePaged(keyword.value, currentPage.value, pageSize.value).then(resp => {
     if (resp.code === 200) {
       total.value = resp.data.iPage.total
       pageSize.value = resp.data.iPage.size
@@ -37,7 +37,7 @@ const requestSensitiveData = async () => {
   })
 }
 
-onActivated(() => {
+onActivated(()=>{
   requestSensitiveData()
 })
 </script>
@@ -96,12 +96,7 @@ onActivated(() => {
         </template>
       </el-table-column>
       <el-table-column label="操作者" prop="operator.name"></el-table-column>
-      <el-table-column label="受影响账号头像">
-        <template v-slot="{ row: { account } }">
-          <el-avatar :src="account.avatar"></el-avatar>
-        </template>
-      </el-table-column>
-      <el-table-column label="受影响者" prop="account.name"></el-table-column>
+      <el-table-column label="受影响企业" prop="enterprise.name"></el-table-column>
       <el-table-column label="操作内容" prop="operate"></el-table-column>
       <el-table-column label="操作时间" prop="operateTime"></el-table-column>
       <template #empty>

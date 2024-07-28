@@ -4,7 +4,7 @@ import { defineStore } from 'pinia'
 export const useBackend = defineStore(
     'backend',
     () => {
-        const backend = ref('http://localhost:8081')
+        const backend = ref('http://localhost:11451')
         const setBackend = (newBackend) => {
             backend.value = newBackend
         }

@@ -32,7 +32,7 @@ const add = ref()
 const search = ref()
 const set = ref()
 const edit = ref()
-const loading = ref(true)
+const loading = ref()
 
 // 分页器：页面内容大小切换
 const onSizeChange = (value) => {
@@ -46,8 +46,8 @@ const onCurrentChange = (value) => {
 
 // 搜索用户信息
 const requestAccountInfo = async () => {
+  loading.value = true
   getAccountInfoPaged(query.value).then(resp => {
-    loading.value = true
     if (resp.code===200){
       query.value.total = resp.data.iPage.total
       query.value.pageSize = resp.data.iPage.size

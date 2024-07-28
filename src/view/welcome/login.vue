@@ -108,7 +108,7 @@ const login = async () => {
         }
         ElMessage.success({
           grouping: true,
-          message: resp.msg
+          message: resp.message
         })
         useTokenStore.setToken(resp.data.token)
         getWhoIs().then(resp => {
@@ -120,7 +120,7 @@ const login = async () => {
       } else {
         ElMessage.error({
           grouping: true,
-          message: resp.msg
+          message: resp.message
         })
         requestPictureCaptcha()
       }
