@@ -65,7 +65,10 @@ onActivated(() => {
     </el-row>
 
     <!-- 搜索及功能栏 -->
-    <el-form inline>
+    <el-form
+        inline
+        @submit.native.prevent
+        @keyup="requestSensitiveData">
       <el-row>
         <el-col :span="7">
           <el-form-item>

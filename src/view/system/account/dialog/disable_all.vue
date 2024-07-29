@@ -2,7 +2,7 @@
 import {ref} from "vue";
 import {getPictureCaptcha} from "@/api/welcome/welcome.js";
 import {Edit} from "@element-plus/icons-vue";
-import {decodePass} from "@/api/common/common.js";
+import {disableAllAccount} from "@/api/system/account.js";
 import {ElMessage} from "element-plus";
 
 const dialogVisible = ref(false)
@@ -12,7 +12,7 @@ const rules = ref({
 })
 const captcha = ref({})
 const form = ref()
-const emit = defineEmits(['update:data'])
+const emit = defineEmits(['success'])
 
 const openDialog = (encode, aid) => {
   formData.value.encodePass = encode
@@ -40,19 +40,13 @@ const requestPictureCaptcha = () => {
 const submitFormData = async () => {
   await form.value.validate()
   formData.value.timestamp = Date.now()
-  decodePass(formData.value).then(resp => {
+  disableAllAccount(formData.value).then(resp => {
     if (resp.code === 200) {
-      ElMessage.success({
-        grouping: true,
-        message: resp.message
-      })
-      emit('update:data', resp.data.decode)
+      ElMessage.success(resp.message)
+      emit('success')
       closeDialog()
     } else {
-      ElMessage.error({
-        grouping: true,
-        message: resp.message
-      })
+      ElMessage.error(resp.message)
     }
   })
 }
@@ -63,7 +57,7 @@ defineExpose({
 </script>
 
 <template>
-  <el-dialog title="请求解码密码" v-model="dialogVisible" width="27%" @close="closeDialog">
+  <el-dialog title="请求禁用所有账户" v-model="dialogVisible" width="27%" @close="closeDialog">
     <el-form
         @keyup.enter="submitFormData"
         @submit.native.prevent

@@ -8,7 +8,6 @@ import {getEnterpriseInfoPaged} from "@/api/system/enterprise.js";
 import Enterprise_add from "@/view/system/account/dialog/enterprise_add.vue";
 import Enterprise_edit from "@/view/system/account/drawer/enterprise_edit.vue";
 import Enterprise_advanced_search from "@/view/system/account/drawer/enterprise_advanced_search.vue";
-import {ElMessageBox} from "element-plus";
 
 const tabBread = ref(bread.enterprise)
 const query = ref({
@@ -68,14 +67,6 @@ const advanceSearchHandler = (condition) => {
   requestEnterpriseInfo()
 }
 
-const deleteEnterprise = async (eid) => {
-  await ElMessageBox.confirm('您确定要删除该企业吗?', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  })
-}
-
 const requestEnterpriseInfo = async () => {
   loading.value = true
   getEnterpriseInfoPaged(query.value).then(resp => {
@@ -116,7 +107,10 @@ onActivated(() => {
     </el-row>
 
     <!-- 搜索及功能栏 -->
-    <el-form inline>
+    <el-form
+        inline
+        @submit.native.prevent
+        @keyup="requestEnterpriseInfo">
       <el-row>
         <el-col :span="7">
           <el-form-item>
@@ -156,9 +150,6 @@ onActivated(() => {
         <template #default="scope">
           <el-tooltip content="编辑" effect="light">
             <el-button type="primary" :icon="Edit" circle @click="openEditDrawer(scope.row)"/>
-          </el-tooltip>
-          <el-tooltip content="删除" effect="light">
-            <el-button type="danger" :icon="Delete" circle @click="deleteEnterprise(scope.row.eid)"/>
           </el-tooltip>
         </template>
       </el-table-column>

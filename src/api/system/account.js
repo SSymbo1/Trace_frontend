@@ -15,3 +15,11 @@ export const setAccountStatue = (statue) => {
 export const editAccountInfo = (account) => {
     return request.put('/system/account', account)
 }
+
+export const enableAllAccount = (able) => {
+    return request.put('/system/account/enable', able)
+}
+
+export const disableAllAccount = (able) => {
+    return request.put('/system/account/disable', able)
+}

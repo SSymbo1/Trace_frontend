@@ -73,6 +73,7 @@ defineExpose({
 <template>
   <el-dialog title="添加企业" v-model="dialogVisible" width="27%" @close="closeDialog">
     <el-form
+        @submit.native.prevent
         :model="formData"
         :rules="rules"
         ref="form"

@@ -183,6 +183,7 @@ defineExpose({
 <template>
   <el-drawer title="编辑账户" v-model="drawerVisible" size="30%" @close="closeDrawer">
     <el-form
+        @submit.native.prevent
         :model="formData"
         :rules="rules"
         ref="form"

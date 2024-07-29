@@ -2,7 +2,7 @@
 import bread from '@/json/system_bread_crumb.json'
 import router from "@/router/index.js";
 import Page_container from "@/view/component/page_container.vue";
-import {Document, Edit, Plus, Search, Setting} from "@element-plus/icons-vue";
+import {Document, Edit, Open, Plus, Remove, Search, Setting, SwitchButton} from "@element-plus/icons-vue";
 import {onActivated, ref} from "vue";
 import {getAccountInfoPaged} from "@/api/system/account.js";
 import Account_info from "@/view/system/account/drawer/account_info.vue";
@@ -10,6 +10,9 @@ import Account_add from "@/view/system/account/dialog/account_add.vue";
 import Account_advanced_search from "@/view/system/account/drawer/account_advanced_search.vue";
 import Account_set from "@/view/system/account/drawer/account_set.vue";
 import Account_edit from "@/view/system/account/drawer/account_edit.vue";
+import Enable_all from "@/view/system/account/dialog/enable_all.vue";
+import Disable_all from "@/view/system/account/dialog/disable_all.vue";
+import {ElMessageBox} from "element-plus";
 
 const tabBread = ref(bread.user)
 const data = ref()
@@ -33,6 +36,8 @@ const search = ref()
 const set = ref()
 const edit = ref()
 const loading = ref()
+const enable = ref()
+const disable = ref()
 
 // 分页器：页面内容大小切换
 const onSizeChange = (value) => {
@@ -48,7 +53,7 @@ const onCurrentChange = (value) => {
 const requestAccountInfo = async () => {
   loading.value = true
   getAccountInfoPaged(query.value).then(resp => {
-    if (resp.code===200){
+    if (resp.code === 200) {
       query.value.total = resp.data.iPage.total
       query.value.pageSize = resp.data.iPage.size
       data.value = resp.data.iPage.records
@@ -82,6 +87,25 @@ const openAccountEditDrawer = (data) => {
   edit.value.openDrawer(data)
 }
 
+const enableAllAccount = async () => {
+  await ElMessageBox.confirm('您确定要启用所有账户吗?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  })
+  enable.value.openDialog()
+}
+
+const disableAllAccount = async () => {
+  await ElMessageBox.confirm('您确定要禁用所有账户吗?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  })
+  disable.value.openDialog()
+
+}
+
 // 添加账户成功回调
 const addAccountSuccessHandler = () => {
   query.value.currentPage = 1
@@ -103,6 +127,16 @@ const setAccountStatueSuccessHandler = () => {
 // 高级搜素条件回调
 const advanceSearchHandler = (condition) => {
   query.value = condition
+  requestAccountInfo()
+}
+
+const enableAllSuccess = () => {
+  query.value.currentPage = 1
+  requestAccountInfo()
+}
+
+const disableAllSuccess = () => {
+  query.value.currentPage = 1
   requestAccountInfo()
 }
 
@@ -134,7 +168,10 @@ onActivated(() => {
     </el-row>
 
     <!-- 搜索及功能栏 -->
-    <el-form inline>
+    <el-form
+        inline
+        @submit.native.prevent
+        @keyup="requestAccountInfo">
       <el-row>
         <el-col :span="7">
           <el-form-item>
@@ -145,9 +182,11 @@ onActivated(() => {
             </el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="12">
           <el-button type="success" :icon="Search" @click="openAccountAdvancedSearchDrawer(query)">高级搜索</el-button>
           <el-button type="primary" :icon="Plus" @click="openAccountAddDialog">添加账户</el-button>
+          <el-button type="success" :icon="SwitchButton" @click="enableAllAccount">启用所有账户</el-button>
+          <el-button type="danger" :icon="SwitchButton" @click="disableAllAccount">禁用所有账户</el-button>
         </el-col>
       </el-row>
       <el-divider/>
@@ -228,6 +267,12 @@ onActivated(() => {
 
     <!--  详细信息  -->
     <Account_info ref="info"></Account_info>
+
+    <!--  启用所有账户  -->
+    <enable_all ref="enable" @success="enableAllSuccess"></enable_all>
+
+    <!--  禁用所有账户  -->
+    <disable_all ref="disable" @success="disableAllSuccess"></disable_all>
 
   </page_container>
 </template>

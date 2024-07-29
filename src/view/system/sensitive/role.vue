@@ -1,9 +1,10 @@
 <script setup>
 import Page_container from "@/view/component/page_container.vue";
-import {ref} from "vue";
+import {onActivated,ref} from "vue";
 import bread from "@/json/system_bread_crumb.json";
 import router from "@/router/index.js";
 import {Search} from "@element-plus/icons-vue";
+import {getSensitiveRolePaged} from "@/api/system/sensitive.js";
 
 const tabBread = ref(bread.sensitive_role)
 const keyword = ref('')
@@ -15,12 +16,30 @@ const loading = ref()
 
 // 分页器：页面内容大小切换
 const onSizeChange = (value) => {
+  requestSensitiveData()
 }
 
 // 分页器：页面切换
 const onCurrentChange = (value) => {
+  requestSensitiveData()
 }
 
+// 搜索敏感记录
+const requestSensitiveData = async () => {
+  loading.value = true
+  getSensitiveRolePaged(keyword.value, currentPage.value, pageSize.value).then(resp => {
+    if (resp.code === 200) {
+      total.value = resp.data.iPage.total
+      pageSize.value = resp.data.iPage.size
+      data.value = resp.data.iPage.records
+      loading.value = false
+    }
+  })
+}
+
+onActivated(()=>{
+  requestSensitiveData()
+})
 </script>
 
 <template>
@@ -46,13 +65,16 @@ const onCurrentChange = (value) => {
     </el-row>
 
     <!-- 搜索及功能栏 -->
-    <el-form inline>
+    <el-form
+        inline
+        @submit.native.prevent
+        @keyup="requestSensitiveData">
       <el-row>
         <el-col :span="7">
           <el-form-item>
             <el-input v-model="keyword" clearable placeholder="用户姓名或用户名">
               <template #append>
-                <el-button :icon="Search"/>
+                <el-button :icon="Search" @click="requestSensitiveData"/>
               </template>
             </el-input>
           </el-form-item>
@@ -77,7 +99,7 @@ const onCurrentChange = (value) => {
         </template>
       </el-table-column>
       <el-table-column label="操作者" prop="operator.name"></el-table-column>
-      <el-table-column label="受影响角色" prop="account.name"></el-table-column>
+      <el-table-column label="受影响角色" prop="role.name"></el-table-column>
       <el-table-column label="操作内容" prop="operate"></el-table-column>
       <el-table-column label="操作时间" prop="operateTime"></el-table-column>
       <template #empty>
