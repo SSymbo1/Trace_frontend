@@ -15,3 +15,7 @@ export const getAccountEditInfo = (accountId) => {
 export const getEnterpriseEditInfo = (enterpriseId) => {
     return request.get('/common/enterprise', {enterpriseId})
 }
+
+export const getRoleEditInfo = (roleId) => {
+    return request.get('/common/role', {roleId})
+}

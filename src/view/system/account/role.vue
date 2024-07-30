@@ -6,6 +6,12 @@ import {Document, Edit, Plus, Search, Setting, SwitchButton} from "@element-plus
 import {ref, onActivated} from "vue";
 import {getRoleInfoPaged} from "@/api/system/role.js";
 import Role_add from "@/view/system/account/dialog/role_add.vue";
+import Role_advanced_search from "@/view/system/account/drawer/role_advanced_search.vue";
+import Role_set from "@/view/system/account/drawer/role_set.vue";
+import Role_edit from "@/view/system/account/drawer/role_edit.vue";
+import Enable_all_role from "@/view/system/account/dialog/enable_all_role.vue";
+import Disable_all_role from "@/view/system/account/dialog/disable_all_role.vue";
+import {ElMessageBox} from "element-plus";
 
 const tabBread = ref(bread.role)
 const query = ref({
@@ -19,6 +25,11 @@ const query = ref({
 const loading = ref(true)
 const data = ref()
 const add = ref()
+const search = ref()
+const set = ref()
+const edit = ref()
+const enable = ref()
+const disable = ref()
 
 // 分页器：页面内容大小切换
 const onSizeChange = (value) => {
@@ -46,7 +57,62 @@ const openAddRoleDialog = () => {
   add.value.openDialog()
 }
 
-const addRuleSuccessHandler = () => {
+const openRoleAdvancedSearchDrawer = (condition) => {
+  search.value.openDrawer(condition)
+}
+
+const openRoleSetDrawer = (data) => {
+  set.value.openDrawer(data)
+}
+
+const openRoleEditDrawer = (data) => {
+  edit.value.openDrawer(data)
+}
+
+const openEnableAllRoleDialog = async () => {
+  await ElMessageBox.confirm('您确定要启用所有角色吗?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  })
+  enable.value.openDialog()
+}
+
+const openDisableAllRoleDialog = async () => {
+  await ElMessageBox.confirm('您确定要启用所有角色吗?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  })
+  disable.value.openDialog()
+}
+
+const addRoleSuccessHandler = () => {
+  query.value.currentPage = 1
+  requestRoleInfo()
+}
+
+const setRoleSuccessHandler = () => {
+  query.value.currentPage = 1
+  requestRoleInfo()
+}
+
+const editRoleSuccessHandler = () => {
+  query.value.currentPage = 1
+  requestRoleInfo()
+}
+
+const advanceSearchHandler = (condition) => {
+  query.value = condition
+  requestRoleInfo()
+}
+
+const enableAllRoleSuccessHandler = () => {
+  query.value.currentPage = 1
+  requestRoleInfo()
+}
+
+const disableAllRoleSuccessHandler = () => {
   query.value.currentPage = 1
   requestRoleInfo()
 }
@@ -94,10 +160,10 @@ onActivated(() => {
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-button type="success" :icon="Search" @click="">高级搜索</el-button>
+          <el-button type="success" :icon="Search" @click="openRoleAdvancedSearchDrawer(query)">高级搜索</el-button>
           <el-button type="primary" :icon="Plus" @click="openAddRoleDialog">添加角色</el-button>
-          <el-button type="success" :icon="SwitchButton">启用所有角色</el-button>
-          <el-button type="danger" :icon="SwitchButton">禁用所有角色</el-button>
+          <el-button type="success" :icon="SwitchButton" @click="openEnableAllRoleDialog">启用所有角色</el-button>
+          <el-button type="danger" :icon="SwitchButton" @click="openDisableAllRoleDialog">禁用所有角色</el-button>
         </el-col>
       </el-row>
       <el-divider/>
@@ -132,10 +198,10 @@ onActivated(() => {
       <el-table-column label="操作" width="150px">
         <template #default="scope">
           <el-tooltip content="编辑" effect="light">
-            <el-button type="primary" :icon="Edit" circle @click=""/>
+            <el-button type="primary" :icon="Edit" circle @click="openRoleEditDrawer(scope.row)"/>
           </el-tooltip>
           <el-tooltip content="设置" effect="light">
-            <el-button type="success" :icon="Setting" circle @click=""/>
+            <el-button type="success" :icon="Setting" circle @click="openRoleSetDrawer(scope.row)"/>
           </el-tooltip>
         </template>
       </el-table-column>
@@ -157,7 +223,17 @@ onActivated(() => {
         style="margin-top: 20px; justify-content: flex-end"
     />
 
-    <role_add ref="add" @success="addRuleSuccessHandler"></role_add>
+    <role_advanced_search ref="search" @update:data="advanceSearchHandler"></role_advanced_search>
+
+    <role_add ref="add" @success="addRoleSuccessHandler"></role_add>
+
+    <role_set ref="set" @success="setRoleSuccessHandler"></role_set>
+
+    <role_edit ref="edit" @success="editRoleSuccessHandler"></role_edit>
+
+    <enable_all_role ref="enable" @success="enableAllRoleSuccessHandler"></enable_all_role>
+
+    <disable_all_role ref="disable" @success="disableAllRoleSuccessHandler"></disable_all_role>
 
   </page_container>
 </template>

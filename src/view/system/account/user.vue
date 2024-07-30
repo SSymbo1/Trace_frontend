@@ -10,8 +10,8 @@ import Account_add from "@/view/system/account/dialog/account_add.vue";
 import Account_advanced_search from "@/view/system/account/drawer/account_advanced_search.vue";
 import Account_set from "@/view/system/account/drawer/account_set.vue";
 import Account_edit from "@/view/system/account/drawer/account_edit.vue";
-import Enable_all from "@/view/system/account/dialog/enable_all.vue";
-import Disable_all from "@/view/system/account/dialog/disable_all.vue";
+import Enable_all from "@/view/system/account/dialog/enable_al_account.vue";
+import Disable_all from "@/view/system/account/dialog/disable_all_account.vue";
 import {ElMessageBox} from "element-plus";
 
 const tabBread = ref(bread.user)

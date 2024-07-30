@@ -4,6 +4,7 @@ import {getPictureCaptcha} from "@/api/welcome/welcome.js";
 import {Edit} from "@element-plus/icons-vue";
 import {disableAllAccount} from "@/api/system/account.js";
 import {ElMessage} from "element-plus";
+import {disableAllRole} from "@/api/system/role.js";
 
 const dialogVisible = ref(false)
 const formData = ref({})
@@ -14,9 +15,7 @@ const captcha = ref({})
 const form = ref()
 const emit = defineEmits(['success'])
 
-const openDialog = (encode, aid) => {
-  formData.value.encodePass = encode
-  formData.value.aid = aid
+const openDialog = () => {
   requestPictureCaptcha()
   dialogVisible.value = true
 }
@@ -40,7 +39,7 @@ const requestPictureCaptcha = () => {
 const submitFormData = async () => {
   await form.value.validate()
   formData.value.timestamp = Date.now()
-  disableAllAccount(formData.value).then(resp => {
+  disableAllRole(formData.value).then(resp => {
     if (resp.code === 200) {
       ElMessage.success(resp.message)
       emit('success')
@@ -57,7 +56,7 @@ defineExpose({
 </script>
 
 <template>
-  <el-dialog title="请求禁用所有账户" v-model="dialogVisible" width="27%" @close="closeDialog">
+  <el-dialog title="请求禁用所有角色" v-model="dialogVisible" width="27%" @close="closeDialog">
     <el-form
         @keyup.enter="submitFormData"
         @submit.native.prevent

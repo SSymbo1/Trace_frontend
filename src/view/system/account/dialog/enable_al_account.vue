@@ -14,9 +14,7 @@ const captcha = ref({})
 const form = ref()
 const emit = defineEmits(['success'])
 
-const openDialog = (encode, aid) => {
-  formData.value.encodePass = encode
-  formData.value.aid = aid
+const openDialog = () => {
   requestPictureCaptcha()
   dialogVisible.value = true
 }
