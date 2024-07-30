@@ -5,5 +5,5 @@ export const userLogin = (welcome) => {
 }
 
 export const getPictureCaptcha = () => {
-    return request.get('/welcome/picture_captcha')
+    return request.get('/welcome/captcha')
 }

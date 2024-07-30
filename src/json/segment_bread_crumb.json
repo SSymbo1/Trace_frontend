@@ -1,0 +1,30 @@
+{
+  "appears": [
+    {
+      "name": "首页",
+      "path": "/segment/home"
+    },
+    {
+      "name": "环节管理",
+      "path": "/segment/manage"
+    },
+    {
+      "name": "超市进场",
+      "path": "/segment/manage/appears"
+    }
+  ],
+  "entry": [
+    {
+      "name": "首页",
+      "path": "/segment/home"
+    },
+    {
+      "name": "环节管理",
+      "path": "/segment/manage"
+    },
+    {
+      "name": "超市出场",
+      "path": "/segment/manage/entry"
+    }
+  ]
+}

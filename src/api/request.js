@@ -2,7 +2,8 @@ import axios from 'axios';
 import {ElMessage} from "element-plus";
 import {useToken} from "@/store/index";
 import {useBackend} from "@/store/base/backend.js";
-import {useRouter} from 'vue-router'
+import router from "@/router/index.js";
+import {useAccountStore} from "@/store/base/account.js";
 
 // 创建一个 Axios 实例
 const request = axios.create({
@@ -24,103 +25,81 @@ request.interceptors.request.use(
 
 // 封装 GET 请求
 export const get = async (url, params = {}) => {
-    let router = useRouter()
     try {
         const response = await request.get(url, {params});
         return response.data;
     } catch (error) {
-        if (error.response.status === 401) {
-            console.log(error)
-            const tokenStore = useToken()
-            tokenStore.removeToken()
-            ElMessage.error({
-                message: '登录失效，请重新登录',
-                grouping: true,
-            })
-            router.push('/login')
-        } else if (error.response.status === 500) {
-            ElMessage.error({
-                message: '服务器出错啦',
-                grouping: true,
-            })
-        }
+        await handleError(error)
     }
 };
 
 // 封装 POST 请求
 export const post = async (url, data = {}) => {
-    let router = useRouter()
     try {
         const response = await request.post(url, data);
         return response.data;
     } catch (error) {
-        if (error.response.status === 401) {
-            console.log(error)
-            const tokenStore = useToken()
-            tokenStore.removeToken()
-            ElMessage.error({
-                message: '登录失效，请重新登录',
-                grouping: true,
-            })
-            router.push('/login')
-        } else if (error.response.status === 500) {
-            ElMessage.error({
-                message: '服务器出错啦',
-                grouping: true,
-            })
-        }
+        await handleError(error)
     }
 };
 
 // 封装 PUT 请求
 export const put = async (url, data = {}) => {
-    let router = useRouter()
     try {
         const response = await request.put(url, data);
         return response.data;
     } catch (error) {
-        if (error.response.status === 401) {
-            console.log(error)
-            const tokenStore = useToken()
-            tokenStore.removeToken()
-            ElMessage.error({
-                message: '登录失效，请重新登录',
-                grouping: true,
-            })
-            router.push('/login')
-        } else if (error.response.status === 500) {
-            ElMessage.error({
-                message: '服务器出错啦',
-                grouping: true,
-            })
-        }
+        await handleError(error)
     }
 };
 
 // 封装 DELETE 请求
 export const del = async (url, data = {}) => {
-    let router = useRouter()
     try {
         const response = await request.delete(url, {data});
         return response.data;
     } catch (error) {
-        if (error.response.status === 401) {
-            console.log(error)
-            const tokenStore = useToken()
-            tokenStore.removeToken()
-            ElMessage.error({
-                message: '登录失效，请重新登录',
-                grouping: true,
-            })
-            router.push('/login')
-        } else if (error.response.status === 500) {
-            ElMessage.error({
-                message: '服务器出错啦',
-                grouping: true,
-            })
-        }
+        await handleError(error)
     }
 };
+
+// 封装文件上传请求
+export const file = async (url, data = {}) => {
+    const tokenStore = useToken()
+    const config = {
+        headers: {
+            'token': tokenStore.token,
+            'Content-Type': 'multipart/form-data'
+        }
+    }
+    try {
+        const response = await request.post(url, data, config);
+        return response.data
+    } catch (error) {
+        await handleError(error)
+    }
+}
+
+const handleError = async (error) => {
+    console.log(error.response)
+    const errorData = error.response.data.data
+    if (errorData.info.code === 401 || errorData.info.code === 402) {
+        const tokenStore = useToken()
+        const accountStore = useAccountStore()
+        tokenStore.removeToken()
+        accountStore.removeAccount()
+        ElMessage.error({
+            message: error.response.data.message,
+            grouping: true,
+        })
+        await router.push('/login')
+    } else {
+        ElMessage.error({
+            message: error.response.data.message,
+            grouping: true,
+        })
+    }
+}
 
 // 导出封装的请求方法
 export default {
@@ -128,4 +107,5 @@ export default {
     post,
     put,
     del,
+    file
 };
