@@ -10,6 +10,9 @@ const rules = ref({
     {required: true, message: '请输入公司名称', trigger: 'blur'},
     {max: 50, message: '公司名称长度应该在50个字符内', trigger: 'blur'}
   ],
+  type: [
+    {required: true, message: '请输入公司性质', trigger: 'blur'},
+  ],
   legalPerson: [
     {required: true, message: '请输入法人姓名', trigger: 'blur'},
     {max: 10, message: '法人姓名长度应该在10个字符内', trigger: 'blur'}
@@ -82,6 +85,13 @@ defineExpose({
         style="max-width: 350px;vertical-align: center;margin-top: 15px">
       <el-form-item label="公司名称" label-width="100px" prop="name">
         <el-input v-model="formData.name" clearable placeholder="请输入公司名称"/>
+      </el-form-item>
+      <el-form-item label="公司性质" label-width="100px" prop="type">
+        <el-select clearable v-model="formData.type">
+          <el-option label="正常企业" value="0"></el-option>
+          <el-option label="供应商" value="1"></el-option>
+          <el-option label="供销商" value="2"></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="法人" label-width="100px" prop="legalPerson">
         <el-input v-model="formData.legalPerson" clearable placeholder="请输入法人姓名"/>
