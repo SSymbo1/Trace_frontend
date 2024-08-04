@@ -1,12 +1,12 @@
-import {createRouter, createWebHistory} from "vue-router";
+import {createRouter, createWebHashHistory, createWebHistory} from "vue-router";
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import {ElMessage} from "element-plus";
 import {useToken} from "@/store/index";
 
 const router = createRouter({
-    // history: createWebHashHistory(),
-    history: createWebHistory(import.meta.env.BASE_URL),
+    history: createWebHashHistory(),
+    // history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         {path: '/', component: () => import('@/view/home/home.vue')},
         {path: '/login', component: () => import('@/view/welcome/login.vue')},
@@ -21,7 +21,10 @@ const router = createRouter({
                 {path: '/system/account/enterprise', component: () => import('@/view/system/account/enterprise.vue')},
                 {path: '/system/sensitive', redirect: '/system/sensitive/account'},
                 {path: '/system/sensitive/account', component: () => import('@/view/system/sensitive/account.vue')},
-                {path: '/system/sensitive/enterprise', component: () => import('@/view/system/sensitive/enterprise.vue')},
+                {
+                    path: '/system/sensitive/enterprise',
+                    component: () => import('@/view/system/sensitive/enterprise.vue')
+                },
                 {path: '/system/sensitive/role', component: () => import('@/view/system/sensitive/role.vue')},
             ]
         },
@@ -72,6 +75,8 @@ const router = createRouter({
                 {path: '/subject/bulk/vendors', component: () => import('@/view/subject/bulk/vendors.vue')},
                 {path: '/subject/product', redirect: '/subject/product/filings'},
                 {path: '/subject/product/filings', component: () => import('@/view/subject/product/filings.vue')},
+                {path: '/subject/product/add', component: () => import('@/view/subject/component/product_add.vue')},
+                {path: '/subject/product/process', component: () => import ('@/view/subject/component/product_record.vue')}
             ]
         },
     ]

@@ -1,18 +1,14 @@
 <script setup>
 import Page_container from "@/view/component/page_container.vue";
 import router from "@/router/index.js";
+import {Check, Close, Document, DocumentAdd, Edit, Picture, Plus, Search, Setting} from "@element-plus/icons-vue";
 import {onActivated, ref} from "vue";
-import bread from '@/json/subject_bread_crumb.json'
-import {Document, Picture, DocumentAdd, Edit, Plus, Search} from "@element-plus/icons-vue";
-import Add_product_excel from "@/view/subject/product/dialog/add_product_excel.vue";
-import Record_advanced_search from "@/view/subject/product/drawer/record_advanced_search.vue";
-import {getProductPaged} from "@/api/subject/product.js";
-import Edit_product_photo from "@/view/subject/product/dialog/edit_product_photo.vue";
+import {getProductRecordPaged, processApprove, processReject} from "@/api/subject/product.js";
 import Product_info from "@/view/subject/product/drawer/product_info.vue";
-import Edit_product from "@/view/subject/product/drawer/edit_product.vue";
-import {ElMessage} from "element-plus";
+import {ElMessage, ElMessageBox} from "element-plus";
+import Process_advanced_search from "@/view/subject/product/drawer/process_advanced_search.vue";
+import Product_process from "@/view/subject/product/dialog/product_process.vue";
 
-const filingsBread = ref(bread.filings)
 const query = ref({
   pageSize: 5,
   total: 0,
@@ -22,15 +18,13 @@ const query = ref({
   classification: '',
   isMajor: 0,
   importType: 0,
-  statue: 0
 })
 const data = ref()
+const selection = ref([])
 const loading = ref()
-const excel = ref()
-const search = ref()
-const photo = ref()
 const info = ref()
-const edit = ref()
+const search = ref()
+const process = ref()
 
 // 分页器：页面内容大小切换
 const onSizeChange = (value) => {
@@ -46,37 +40,23 @@ const openDataInfoDrawer = (data) => {
   info.value.openDrawer(data)
 }
 
-const openUploadSuccessDialog = () => {
-  excel.value.openDialog()
-}
-
-const openEditPhotoDialog = (id) => {
-  photo.value.openDialog(id)
-}
-
 const openSearchDrawer = () => {
   search.value.openDrawer(query.value)
 }
 
-const openEditProductDrawer = (data) => {
-  if (data.productRecord.statue !== 0) {
-    ElMessage.warning("该产品已审批，无法修改详细信息!")
+const openProcessBatchedDialog = () => {
+  if (selection.value.length === 0) {
+    ElMessage.warning('请选择需要审批的数据')
   }else {
-    edit.value.openDrawer(data.pid)
+    process.value.openDialog(selection.value)
   }
 }
 
-const editProductSuccessHandler = () => {
-  query.value.currentPage = 1
-  requestData()
+const handleSelectionChange = (select) => {
+  selection.value = select.map((item) => item)
 }
 
-const editPhotoSuccessHandler = () => {
-  query.value.currentPage = 1
-  requestData()
-}
-
-const uploadExcelHandler = () => {
+const processSuccessHandler = () => {
   query.value.currentPage = 1
   requestData()
 }
@@ -86,9 +66,43 @@ const searchHandler = (value) => {
   requestData()
 }
 
+const processApproved = async (pid) => {
+  await ElMessageBox.confirm('您确定要将该商品纳入产品目录吗?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  })
+  let process = {pid: pid}
+  processApprove(process).then(resp => {
+    if (resp.code === 200) {
+      ElMessage.success(resp.message)
+      requestData()
+    } else {
+      ElMessage.error(resp.message)
+    }
+  })
+}
+
+const processRejected = async (pid) => {
+  await ElMessageBox.confirm('您确定要拒绝将该商品纳入产品目录吗?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  })
+  let process = {pid: pid}
+  processReject(process).then(resp => {
+    if (resp.code === 200) {
+      ElMessage.success(resp.message)
+      requestData()
+    } else {
+      ElMessage.error(resp.message)
+    }
+  })
+}
+
 const requestData = async () => {
   loading.value = true
-  getProductPaged(query.value).then(resp => {
+  getProductRecordPaged(query.value).then(resp => {
     if (resp.code === 200) {
       query.value.total = resp.data.iPage.total
       query.value.pageSize = resp.data.iPage.size
@@ -108,18 +122,8 @@ onActivated(() => {
 
     <el-row style="margin-bottom: 30px">
       <el-page-header @back="()=>{router.go(-1)}">
-        <template #breadcrumb>
-          <el-breadcrumb separator="/">
-            <el-breadcrumb-item
-                v-for="tab in filingsBread"
-                :key="tab.index"
-                :to="{ path:tab.path }">
-              {{ tab.name }}
-            </el-breadcrumb-item>
-          </el-breadcrumb>
-        </template>
         <template #content>
-          <span class="text-large font-600 mr-3">{{ filingsBread[2].name }}</span>
+          <span class="text-large font-600 mr-3">批量纳入产品目录</span>
         </template>
       </el-page-header>
     </el-row>
@@ -141,10 +145,7 @@ onActivated(() => {
         </el-col>
         <el-col :span="15">
           <el-button type="success" :icon="Search" @click="openSearchDrawer">高级搜索</el-button>
-          <el-button type="primary" :icon="Plus" @click="router.push('/subject/product/add')">添加产品</el-button>
-          <el-button type="primary" :icon="DocumentAdd" @click="openUploadSuccessDialog">按表格导入</el-button>
-          <el-button type="success" :icon="Document" @click="router.push('/subject/product/process')">批量纳入产品目录
-          </el-button>
+          <el-button type="success" :icon="Document" @click="openProcessBatchedDialog">批量审核</el-button>
         </el-col>
       </el-row>
     </el-form>
@@ -167,11 +168,13 @@ onActivated(() => {
     <el-table
         v-loading="loading"
         :data="data"
+        @selection-change="handleSelectionChange"
         style="min-width: 100%; margin-top: 10px"
         :row-style="{ height: '50px' }"
         :header-cell-style="{ 'text-align': 'center' }"
         :cell-style="{ 'text-align': 'center' }"
         table-layout="fixed">
+      <el-table-column type="selection" width="55px" fixed="left"/>
       <el-table-column label="序号" type="index" width="60px"></el-table-column>
       <el-table-column label="图片">
         <template v-slot="{ row: { photo } }">
@@ -203,11 +206,11 @@ onActivated(() => {
       <el-table-column label="审批日期" prop="productRecord.processTime"/>
       <el-table-column label="操作" width="150px">
         <template #default="scope">
-          <el-tooltip content="编辑" effect="light">
-            <el-button type="primary" :icon="Edit" circle @click="openEditProductDrawer(scope.row)"/>
+          <el-tooltip content="通过" effect="light">
+            <el-button type="success" :icon="Check" circle @click="processApproved(scope.row.pid)"/>
           </el-tooltip>
-          <el-tooltip content="修改产品图片" effect="light">
-            <el-button type="success" :icon="Picture" circle @click="openEditPhotoDialog(scope.row.pid)"/>
+          <el-tooltip content="不通过" effect="light">
+            <el-button type="danger" :icon="Close" circle @click="processRejected(scope.row.pid)"/>
           </el-tooltip>
           <el-tooltip content="详细信息" effect="light">
             <el-button type="warning" :icon="Document" circle @click="openDataInfoDrawer(scope.row)"/>
@@ -221,13 +224,9 @@ onActivated(() => {
 
     <product_info ref="info"></product_info>
 
-    <edit_product ref="edit" @success="editProductSuccessHandler"></edit_product>
+    <product_process ref="process" @success="processSuccessHandler"></product_process>
 
-    <edit_product_photo ref="photo" @success="editPhotoSuccessHandler"></edit_product_photo>
-
-    <add_product_excel ref="excel" @success="uploadExcelHandler"></add_product_excel>
-
-    <record_advanced_search ref="search" @update:data="searchHandler"></record_advanced_search>
+    <process_advanced_search ref="search" @update:data="searchHandler"></process_advanced_search>
 
   </page_container>
 </template>

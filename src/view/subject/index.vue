@@ -140,7 +140,7 @@ onActivated(() => {
           <transition name="fade" mode="out-in" appear>
             <Suspense>
               <keep-alive>
-                <component :is="Component"/>
+                <component :is="Component" :key="$route.fullPath"/>
               </keep-alive>
             </Suspense>
           </transition>
@@ -193,5 +193,8 @@ onActivated(() => {
   margin-left: 15px;
   font-size: large;
   font-weight: bold;
+}
+.container{
+  height: 100vh;
 }
 </style>

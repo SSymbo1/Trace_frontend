@@ -19,3 +19,11 @@ export const getEnterpriseEditInfo = (enterpriseId) => {
 export const getRoleEditInfo = (roleId) => {
     return request.get('/common/role', {roleId})
 }
+
+export const getProductEditInfo = (productId) => {
+    return request.get('/common/product', {productId})
+}
+
+export const getApproverInfo = (approverId) => {
+    return request.get('/common/approver', {approverId})
+}

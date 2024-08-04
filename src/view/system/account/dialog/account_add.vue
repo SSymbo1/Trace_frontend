@@ -200,7 +200,8 @@ defineExpose({
               v-for="role in roleMenue"
               :key="role.index"
               :label="role.name"
-              :value="role.rid"></el-option>
+              :value="role.rid">
+          </el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="所属企业" label-width="100px" prop="enterprise">
