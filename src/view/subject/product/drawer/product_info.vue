@@ -1,16 +1,24 @@
 <script setup>
 import {ref} from "vue";
+import {getApproverInfo} from "@/api/common/common.js";
 
 const drawerVisible = ref(false);
 const data = ref({})
 
 const openDrawer = (queryData) => {
   data.value = queryData
+  requestApproverInfo(data.value.productRecord.approver)
   drawerVisible.value = true
 }
 
 const closeDrawer = () => {
   drawerVisible.value = false
+}
+
+const requestApproverInfo = (aid) => {
+  getApproverInfo(aid).then(resp => {
+    data.value.productRecord.approverName = resp.data.data.name
+  })
 }
 
 defineExpose({
@@ -37,7 +45,7 @@ defineExpose({
         <el-tag type="success" v-if="data.isMajor===1" size="large">是</el-tag>
       </el-descriptions-item>
       <el-descriptions-item label="审批人员" label-align="center">
-        <el-text class="show-text">{{ data.productRecord.approver }}</el-text>
+        <el-text class="show-text">{{ data.productRecord.approverName }}</el-text>
       </el-descriptions-item>
       <el-descriptions-item label="产品分类" label-align="center">
         <el-text class="show-text">{{ data.className }}</el-text>
@@ -61,7 +69,7 @@ defineExpose({
       <el-descriptions-item label="创建人员" label-align="center">
         <el-text class="show-text">{{ data.productRecord.accountName }}</el-text>
       </el-descriptions-item>
-      <el-descriptions-item label="创建时间" label-align="center">
+      <el-descriptions-item label="创建时间pro" label-align="center">
         <el-text class="show-text">{{ data.productRecord.insertTime }}</el-text>
       </el-descriptions-item>
     </el-descriptions>

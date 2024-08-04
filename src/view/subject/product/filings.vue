@@ -10,6 +10,7 @@ import {getProductPaged} from "@/api/subject/product.js";
 import Edit_product_photo from "@/view/subject/product/dialog/edit_product_photo.vue";
 import Product_info from "@/view/subject/product/drawer/product_info.vue";
 import Edit_product from "@/view/subject/product/drawer/edit_product.vue";
+import {ElMessage} from "element-plus";
 
 const filingsBread = ref(bread.filings)
 const query = ref({
@@ -58,7 +59,11 @@ const openSearchDrawer = () => {
 }
 
 const openEditProductDrawer = (data) => {
-  edit.value.openDrawer(data)
+  if (data.productRecord.statue !== 0) {
+    ElMessage.warning("该产品已审批，无法修改详细信息!")
+  }else {
+    edit.value.openDrawer(data.pid)
+  }
 }
 
 const editProductSuccessHandler = () => {
@@ -199,7 +204,7 @@ onActivated(() => {
       <el-table-column label="操作" width="150px">
         <template #default="scope">
           <el-tooltip content="编辑" effect="light">
-            <el-button type="primary" :icon="Edit" circle @click="openEditProductDrawer(scope.row.pid)"/>
+            <el-button type="primary" :icon="Edit" circle @click="openEditProductDrawer(scope.row)"/>
           </el-tooltip>
           <el-tooltip content="修改产品图片" effect="light">
             <el-button type="success" :icon="Picture" circle @click="openEditPhotoDialog(scope.row.pid)"/>

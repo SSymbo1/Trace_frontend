@@ -14,9 +14,8 @@
 如果你没有 pnpm 包管理工具请先安装pnpm。
 确保你的 node 版本支持 Vue3，Vite 和 pnpm，以下是开发时使用的版本
 
-node版本：v18.15.0
-
-pnpm版本: 8.15.4
+- node：v18.15.0
+- pnpm: 8.15.4
 
 #### 1.安装 pnpm
 ```bash

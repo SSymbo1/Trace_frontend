@@ -140,7 +140,7 @@ onActivated(() => {
           <transition name="fade" mode="out-in" appear>
             <Suspense>
               <keep-alive>
-                <component :is="Component"/>
+                <component :is="Component" :key="$route.fullPath"/>
               </keep-alive>
             </Suspense>
           </transition>
