@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {ElMessage} from "element-plus";
+import {ElMessage, ElNotification} from "element-plus";
 import {useToken} from "@/store/index";
 import {useBackend} from "@/store/base/backend.js";
 import router from "@/router/index.js";
@@ -97,6 +97,13 @@ const handleError = async (error) => {
         ElMessage.error({
             message: error.response.data.message,
             grouping: true,
+        })
+    }
+    if (error.response.data.data.info.code === 410) {
+        ElNotification.error({
+            title: '失败',
+            message: error.response.data.data.info.message,
+            offset: 48
         })
     }
 }

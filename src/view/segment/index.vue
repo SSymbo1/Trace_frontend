@@ -194,4 +194,7 @@ onActivated(() => {
   font-size: large;
   font-weight: bold;
 }
+.container{
+  height: 100vh;
+}
 </style>

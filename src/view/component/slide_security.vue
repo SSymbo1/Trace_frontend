@@ -15,18 +15,25 @@ const onMouseDown = (e) => {
       clientX: e.clientX,
     };
   }
+  if (blockState.value < 0) {
+    blockState.value = 0
+  }
 };
 
 const onMouseMove = (e) => {
   if (blockState.value === 1) {
     let width = e.clientX - startP.value.clientX;
+    width = Math.max(0, width);
     if (width + 40 > 260) {
-      leftP.value = 260 - 40 + "px";
+      leftP.value = (260 - 40) + "px";
       blockState.value = 2;
       emit("success");
     } else {
       leftP.value = width + "px";
     }
+  }
+  if (blockState.value < 0) {
+    blockState.value = 0;
   }
 };
 
@@ -36,6 +43,9 @@ const onMouseUp = (e) => {
     blockState.value = 0;
     emit("failed");
   }
+  if (blockState.value < 0) {
+    blockState.value = 0
+  }
 };
 
 const onMouseLeave = (e) => {
@@ -43,6 +53,9 @@ const onMouseLeave = (e) => {
     leftP.value = "0";
     blockState.value = 0;
     emit("failed");
+  }
+  if (blockState.value < 0) {
+    blockState.value = 0
   }
 };
 
