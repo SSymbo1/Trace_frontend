@@ -11,3 +11,11 @@ export const productExcelUpload = (excel) => {
 export const productImgUpload = (product) => {
     return request.file('/file/upload/goods', product)
 }
+
+export const uploadAppearsExcel = (excel) => {
+    return request.file('/file/upload/approach', excel)
+}
+
+export const uploadEntryExcel = (excel) => {
+    return request.file('/file/upload/entrance', excel)
+}
