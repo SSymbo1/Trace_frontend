@@ -115,7 +115,7 @@ onDeactivated(() => {
 .slider-verify-block {
   width: 40px;
   height: 40px;
-  background-image: url("@/assets/arror.png");
+  background-image: url("@/assets/component_assets/arror.png");
   background-color: white;
   position: absolute;
   left: 0;

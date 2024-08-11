@@ -24,22 +24,22 @@
   "visualized_platform": "重要产品溯源可视化平台",
   "info_collect_card": [
     {
-      "icon": "/src/assets/info_svg/ZondiconsUserGroup.svg",
+      "icon": "/src/assets/home_card_icon/ZondiconsUserGroup.svg",
       "name": "账户统计",
       "data": 864
     },
     {
-      "icon": "/src/assets/info_svg/ZondiconsChartBar.svg",
+      "icon": "/src/assets/home_card_icon/ZondiconsChartBar.svg",
       "name": "追溯总数居",
       "data": 99119937
     },
     {
-      "icon": "/src/assets/info_svg/MingcuteBuilding1Fill.svg",
+      "icon": "/src/assets/home_card_icon/MingcuteBuilding1Fill.svg",
       "name": "流通节点企业总数",
       "data": 810
     },
     {
-      "icon": "/src/assets/info_svg/RiFunctionFill.svg",
+      "icon": "/src/assets/home_card_icon/RiFunctionFill.svg",
       "name": "重要产品",
       "data": 28
     }

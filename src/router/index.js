@@ -55,6 +55,7 @@ const router = createRouter({
                 {path: '/monitor/manage', redirect: '/monitor/manage/summary'},
                 {path: '/monitor/manage/summary', component: () => import('@/view/monitor/manage/summary.vue')},
                 {path: '/monitor/manage/data', component: () => import('@/view/monitor/manage/data.vue')},
+                {path: '/monitor/manage/info', component: () => import('@/view/monitor/manage/info.vue')}
             ]
         },
         {
@@ -76,7 +77,10 @@ const router = createRouter({
                 {path: '/subject/product', redirect: '/subject/product/filings'},
                 {path: '/subject/product/filings', component: () => import('@/view/subject/product/filings.vue')},
                 {path: '/subject/product/add', component: () => import('@/view/subject/component/product_add.vue')},
-                {path: '/subject/product/process', component: () => import ('@/view/subject/component/product_record.vue')}
+                {
+                    path: '/subject/product/process',
+                    component: () => import ('@/view/subject/component/product_record.vue')
+                }
             ]
         },
     ]
