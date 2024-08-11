@@ -8,14 +8,18 @@ import {useToken} from "@/store/index.js";
 import {useRouter} from "vue-router";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {getHomeMenue} from "@/api/menue/menue.js";
-import Home_statistics from "@/view/echarts/home_statistics.vue";
 import {useAccountStore} from "@/store/base/account.js";
+import Current_info from "@/view/component/current_info.vue";
+import Home_histogram from "@/view/echarts/home/home_histogram.vue";
 
 const useTokenStore = useToken()
+const useAccount = useAccountStore()
 const router = useRouter()
 const dataCollect = ref([])
 const menue = ref([])
 const account = ref({})
+const info = ref()
+const data = ref({xData: [], yData: []})
 
 // todo 数据卡片数据请求
 // 数据卡片数据请求和处理
@@ -30,6 +34,10 @@ const dataProcess = () => {
   })
 }
 
+const openCurrentInfoDrawer = () => {
+  info.value.openDrawer(useAccount.account)
+}
+
 // 顶部头像下拉菜单选项
 const dropdownMenuProcess = (command) => {
   switch (command) {
@@ -38,6 +46,7 @@ const dropdownMenuProcess = (command) => {
       break
     }
     case 'profile': {
+      openCurrentInfoDrawer()
       break
     }
     case 'change': {
@@ -74,16 +83,32 @@ const requestMenue = async () => {
     if (resp.code === 200) {
       menue.value = resp.data.homeMenu
       menue.value.forEach((item) => {
-        item.icon = '/src/assets/menue_svg/' + item.icon
+        item.icon = '/src/assets/home_menue_icon/' + item.icon
       })
     }
   })
+}
+
+const requestHistogramData = () => {
+  data.value = {xData: [], yData: []}
+  console.log("执行")
+  let today = new Date();
+  for (let i = -15; i <= 0; i++) {
+    let currentDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + i);
+    let year = currentDate.getFullYear();
+    let month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
+    let day = ('0' + currentDate.getDate()).slice(-2);
+    let formattedDate = `${year}-${month}-${day}`;
+    data.value.yData.push(Math.floor(Math.random() * (1000 - 100 + 1)) + 100)
+    data.value.xData.push(formattedDate);
+  }
 }
 
 onActivated(() => {
   whoIam()
   dataProcess()
   requestMenue()
+  requestHistogramData()
 })
 </script>
 
@@ -164,7 +189,7 @@ onActivated(() => {
       <!--   echarts数据统计柱状图   -->
       <div class="info-statistics">
         <page_container title="数据统计柱状图">
-          <home_statistics></home_statistics>
+          <home_histogram :data="data"></home_histogram>
         </page_container>
       </div>
 
@@ -183,8 +208,9 @@ onActivated(() => {
       </div>
     </el-footer>
 
-  </el-container>
+    <current_info ref="info"></current_info>
 
+  </el-container>
 </template>
 
 <style scoped lang="scss">
@@ -247,6 +273,8 @@ onActivated(() => {
 
 .info-statistics {
   margin-top: 30px;
+  width: 100%;
+  height: 500px;
 }
 
 .select-card {

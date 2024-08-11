@@ -7,11 +7,14 @@ import {useToken} from "@/store/index.js";
 import {onActivated, ref} from "vue";
 import {getSegmentMenue} from "@/api/menue/menue.js";
 import {useAccountStore} from "@/store/base/account.js";
+import Current_info from "@/view/component/current_info.vue";
 
 const useTokenStore = useToken()
+const useAccount = useAccountStore()
 const router = useRouter()
 const menue = ref();
 const account = ref({})
+const info = ref()
 
 // 顶部头像下拉菜单选项
 const dropdownMenuProcess = (command) => {
@@ -21,6 +24,7 @@ const dropdownMenuProcess = (command) => {
       break
     }
     case 'profile': {
+      openCurrentInfoDrawer()
       break
     }
     case 'change': {
@@ -31,6 +35,10 @@ const dropdownMenuProcess = (command) => {
       break
     }
   }
+}
+
+const openCurrentInfoDrawer = () => {
+  info.value.openDrawer(useAccount.account)
 }
 
 // 请求子功能菜单
@@ -148,6 +156,8 @@ onActivated(() => {
       </el-main>
 
     </el-container>
+
+    <current_info ref="info"></current_info>
 
   </el-container>
 </template>
