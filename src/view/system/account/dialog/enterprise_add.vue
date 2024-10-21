@@ -13,6 +13,9 @@ const rules = ref({
   type: [
     {required: true, message: '请输入公司性质', trigger: 'blur'},
   ],
+  ilk: [
+    {required: true, message: '请选择公司类型', trigger: 'blur'},
+  ],
   legalPerson: [
     {required: true, message: '请输入法人姓名', trigger: 'blur'},
     {max: 10, message: '法人姓名长度应该在10个字符内', trigger: 'blur'}
@@ -91,6 +94,18 @@ defineExpose({
           <el-option label="正常企业" value="0"></el-option>
           <el-option label="供应商" value="1"></el-option>
           <el-option label="供销商" value="2"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="企业类型" label-width="100px" prop="ilk">
+        <el-select clearable v-model="formData.ilk">
+          <el-option label="团体单位" :value="0"></el-option>
+          <el-option label="种植企业" :value="1"></el-option>
+          <el-option label="养殖企业" :value="2"></el-option>
+          <el-option label="生产加工" :value="3"></el-option>
+          <el-option label="屠宰企业" :value="4"></el-option>
+          <el-option label="批发市场" :value="5"></el-option>
+          <el-option label="农贸市场" :value="6"></el-option>
+          <el-option label="连锁超市" :value="7"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="法人" label-width="100px" prop="legalPerson">

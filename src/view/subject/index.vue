@@ -8,6 +8,7 @@ import {onActivated, ref} from "vue";
 import {getSubjectMenue} from "@/api/menue/menue.js";
 import {useAccountStore} from "@/store/base/account.js";
 import Current_info from "@/view/component/current_info.vue";
+import Re_password from "@/view/component/re_password.vue";
 
 const useTokenStore = useToken()
 const useAccount = useAccountStore()
@@ -15,6 +16,7 @@ const router = useRouter()
 const menue = ref();
 const account = ref({})
 const info = ref()
+const rePass = ref()
 
 // 顶部头像下拉菜单选项
 const dropdownMenuProcess = (command) => {
@@ -28,6 +30,7 @@ const dropdownMenuProcess = (command) => {
       break
     }
     case 'change': {
+      openRePassword()
       break
     }
     case 'logout': {
@@ -39,6 +42,10 @@ const dropdownMenuProcess = (command) => {
 
 const openCurrentInfoDrawer = () => {
   info.value.openDrawer(useAccount.account)
+}
+
+const openRePassword = () => {
+  rePass.value.openDialog()
 }
 
 // 请求子功能菜单
@@ -158,6 +165,8 @@ onActivated(() => {
     </el-container>
 
     <current_info ref="info"></current_info>
+
+    <re_password ref="rePass"></re_password>
 
   </el-container>
 </template>

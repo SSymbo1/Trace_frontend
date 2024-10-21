@@ -1,5 +1,13 @@
 import request from "@/api/request.js";
 
+export const homeHistogram = () => {
+    return request.get('/common/statistics/line')
+}
+
+export const homeCardData = () => {
+    return request.get('/common/statistics/card')
+}
+
 export const getWhoIs = () => {
     return request.get("/common/whois")
 }

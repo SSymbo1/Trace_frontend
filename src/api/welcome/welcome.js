@@ -7,3 +7,7 @@ export const userLogin = (welcome) => {
 export const getPictureCaptcha = () => {
     return request.get('/welcome/captcha')
 }
+
+export const rePassword = (rePassword) => {
+    return request.put('/welcome/password', rePassword)
+}

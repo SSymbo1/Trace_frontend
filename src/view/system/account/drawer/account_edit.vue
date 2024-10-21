@@ -15,6 +15,7 @@ const rules = ref({
   ],
   password: [
     {required: true, message: '请输入密码', trigger: 'blur'},
+    { pattern: /^[.\w@]+$/, message: '密码只能包括数字字母 "." "_" "@"', trigger: 'blur'},
     {min: 6, max: 18, message: '密码长度应该在6-18个字符内', trigger: 'blur'}
   ],
   role: [

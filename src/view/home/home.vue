@@ -1,5 +1,5 @@
 <script setup>
-import {onActivated, onDeactivated, ref} from "vue";
+import {onActivated, ref} from "vue";
 import {useTransition} from '@vueuse/core'
 import welcomeLabel from '@/json/welcome.json';
 import homeLabel from '@/json/home.json';
@@ -11,6 +11,8 @@ import {getHomeMenue} from "@/api/menue/menue.js";
 import {useAccountStore} from "@/store/base/account.js";
 import Current_info from "@/view/component/current_info.vue";
 import Home_histogram from "@/view/echarts/home/home_histogram.vue";
+import {homeCardData} from "@/api/common/common.js";
+import Re_password from "@/view/component/re_password.vue";
 
 const useTokenStore = useToken()
 const useAccount = useAccountStore()
@@ -19,23 +21,35 @@ const dataCollect = ref([])
 const menue = ref([])
 const account = ref({})
 const info = ref()
-const data = ref({xData: [], yData: []})
+const rePass = ref()
 
-// todo 数据卡片数据请求
 // 数据卡片数据请求和处理
 const dataProcess = () => {
-  dataCollect.value = homeLabel.info_collect_card
-  dataCollect.value.forEach((data) => {
-    let echo = ref(0)
-    data.echoData = useTransition(echo, {
-      duration: 2000
-    })
-    echo.value = data.data
+  homeCardData().then(resp => {
+    if (resp.code === 200) {
+      dataCollect.value = homeLabel.info_collect_card
+      dataCollect.value[0].data = resp.data.data.account
+      dataCollect.value[1].data = resp.data.data.trace
+      dataCollect.value[2].data = resp.data.data.enterprise
+      dataCollect.value[3].data = resp.data.data.major
+      dataCollect.value.forEach((data) => {
+        let echo = ref(0)
+        data.echoData = useTransition(echo, {
+          duration: 2000
+        })
+        echo.value = data.data
+      })
+    }
   })
+
 }
 
 const openCurrentInfoDrawer = () => {
   info.value.openDrawer(useAccount.account)
+}
+
+const openRePassword = () => {
+  rePass.value.openDialog()
 }
 
 // 顶部头像下拉菜单选项
@@ -50,6 +64,7 @@ const dropdownMenuProcess = (command) => {
       break
     }
     case 'change': {
+      openRePassword()
       break
     }
     case 'logout': {
@@ -89,26 +104,10 @@ const requestMenue = async () => {
   })
 }
 
-const requestHistogramData = () => {
-  data.value = {xData: [], yData: []}
-  console.log("执行")
-  let today = new Date();
-  for (let i = -15; i <= 0; i++) {
-    let currentDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + i);
-    let year = currentDate.getFullYear();
-    let month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
-    let day = ('0' + currentDate.getDate()).slice(-2);
-    let formattedDate = `${year}-${month}-${day}`;
-    data.value.yData.push(Math.floor(Math.random() * (1000 - 100 + 1)) + 100)
-    data.value.xData.push(formattedDate);
-  }
-}
-
 onActivated(() => {
   whoIam()
   dataProcess()
   requestMenue()
-  requestHistogramData()
 })
 </script>
 
@@ -189,7 +188,7 @@ onActivated(() => {
       <!--   echarts数据统计柱状图   -->
       <div class="info-statistics">
         <page_container title="数据统计柱状图">
-          <home_histogram :data="data"></home_histogram>
+          <home_histogram></home_histogram>
         </page_container>
       </div>
 
@@ -209,6 +208,8 @@ onActivated(() => {
     </el-footer>
 
     <current_info ref="info"></current_info>
+
+    <re_password ref="rePass"></re_password>
 
   </el-container>
 </template>
