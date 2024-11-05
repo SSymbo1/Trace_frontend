@@ -32,7 +32,7 @@ const data = ref({
   approachProduct: 0,
   approachDrink: 0,
   approachFood: 0,
-  entranceProvinceList: {
+  provinceDataList: {
     total: 0,
     enter: 0,
     outer: 0,
@@ -65,7 +65,11 @@ const searchData = async () => {
 
 const downloadPDF = () => {
   let fileDOM = document.getElementsByClassName("analysis")
-  htmlPdf(query.value.before + "至" + query.value.now + "批发数据分析", document.querySelector(".analysis"), fileDOM)
+  htmlPdf(
+      query.value.before + "至" + query.value.now + "批发数据分析",
+      document.querySelector(".analysis"),
+      fileDOM
+  )
 }
 </script>
 
@@ -130,12 +134,109 @@ const downloadPDF = () => {
     </el-form>
 
     <div class="analysis">
-      <div class="entrance" align="center">
+      <div class="approach" align="center">
         <div class="text_show_container" align="center">
           <el-text style="color: white">进场数据分析</el-text>
         </div>
         <div style="width: 500px;height: 50px;border: 1px solid;line-height: 50px;margin-top: 15px" align="center">
           <el-text>进场数据</el-text>
+          <el-text style="margin-left: 10px">总计</el-text>
+          <el-text type="primary">{{ data.approachSum }}</el-text>
+          <el-text>条数据</el-text>
+          <el-text style="margin-left: 10px">环比增长</el-text>
+          <el-text type="primary">{{ data.approachQOQ }}</el-text>
+          <el-text style="margin-left: 10px">同比增长</el-text>
+          <el-text type="primary">{{ data.approachYOY }}</el-text>
+        </div>
+        <el-table
+            :data="data.approachTotalList"
+            style="min-width: 100%; margin-top: 10px"
+            :row-style="{ height: '50px' }"
+            :header-cell-style="{ 'text-align': 'center' }"
+            :cell-style="{ 'text-align': 'center' }"
+            table-layout="fixed">
+          <el-table-column label="序号" type="index" width="60px"></el-table-column>
+          <el-table-column label="日期" prop="date"></el-table-column>
+          <el-table-column label="数据量" prop="total"></el-table-column>
+          <el-table-column label="环比增长" prop="qoq"></el-table-column>
+          <el-table-column label="同比增长" prop="yoy"></el-table-column>
+          <template #empty>
+            <el-empty description="空空如也"/>
+          </template>
+        </el-table>
+        <entrance_total :data="data.approachTotalList"></entrance_total>
+
+        <div style="width: 700px;height: 50px;border: 1px solid;line-height: 50px;margin-top: 15px" align="center">
+          <el-text>产品分类</el-text>
+          <el-text style="margin-left: 10px">生鲜食品</el-text>
+          <el-text type="primary">{{ data.approachFresh }}</el-text>
+          <el-text>条数据</el-text>
+          <el-text style="margin-left: 10px">加工食品</el-text>
+          <el-text type="primary">{{ data.approachProduct }}</el-text>
+          <el-text>条数据</el-text>
+          <el-text style="margin-left: 10px">饮料与酒水</el-text>
+          <el-text type="primary">{{ data.approachDrink }}</el-text>
+          <el-text>条数据</el-text>
+          <el-text style="margin-left: 10px">食品杂货</el-text>
+          <el-text type="primary">{{ data.approachFood }}</el-text>
+          <el-text>条数据</el-text>
+        </div>
+        <el-table
+            :data="data.approachClassList"
+            style="min-width: 100%; margin-top: 10px"
+            :row-style="{ height: '50px' }"
+            :header-cell-style="{ 'text-align': 'center' }"
+            :cell-style="{ 'text-align': 'center' }"
+            table-layout="fixed">
+          <el-table-column label="序号" type="index" width="60px"></el-table-column>
+          <el-table-column label="日期" prop="date"></el-table-column>
+          <el-table-column label="生鲜食品" prop="fresh"></el-table-column>
+          <el-table-column label="加工食品" prop="product"></el-table-column>
+          <el-table-column label="饮料与酒水" prop="drink"></el-table-column>
+          <el-table-column label="食品杂货" prop="food"></el-table-column>
+          <template #empty>
+            <el-empty description="空空如也"/>
+          </template>
+        </el-table>
+        <entrance_class_total :data="data.approachClassList"></entrance_class_total>
+
+        <div style="width: 700px;height: 50px;border: 1px solid;line-height: 50px;margin-top: 15px" align="center">
+          <el-text>产地数据</el-text>
+          <el-text style="margin-left: 10px">总计</el-text>
+          <el-text type="primary">{{ data.provinceDataList.total }}</el-text>
+          <el-text>条数据</el-text>
+          <el-text style="margin-left: 10px">省内占比</el-text>
+          <el-text type="primary">{{ data.provinceDataList.enter }}</el-text>
+          <el-text style="margin-left: 10px">省外占比</el-text>
+          <el-text type="primary">{{ data.provinceDataList.outer }}</el-text>
+        </div>
+        <el-table
+            style="min-width: 100%; margin-top: 10px"
+            :data="data.provinceDataList.values"
+            :row-style="{ height: '50px' }"
+            :header-cell-style="{ 'text-align': 'center' }"
+            :cell-style="{ 'text-align': 'center' }"
+            table-layout="fixed">
+          <el-table-column label="序号" type="index" width="60px"></el-table-column>
+          <el-table-column label="日期" prop="date"></el-table-column>
+          <el-table-column label="进场数据" prop="total"></el-table-column>
+          <el-table-column label="省内" prop="enter"></el-table-column>
+          <el-table-column label="省外" prop="outer"></el-table-column>
+          <template #empty>
+            <el-empty description="空空如也"/>
+          </template>
+        </el-table>
+        <entrance_from_total :data="data.provinceDataList.provinces"></entrance_from_total>
+      </div>
+
+      <el-divider/>
+
+      <div class="entrance" style="margin-top: 20px" align="center">
+        <div class="text_show_container" align="center">
+          <el-text style="color: white">出场数据分析</el-text>
+        </div>
+        <div style="width: 500px;height: 50px;border: 1px solid;line-height: 50px;margin-top: 15px" align="center">
+          <el-text>出场数据</el-text>
           <el-text style="margin-left: 10px">总计</el-text>
           <el-text type="primary">{{ data.entranceSum }}</el-text>
           <el-text>条数据</el-text>
@@ -195,69 +296,6 @@ const downloadPDF = () => {
           </template>
         </el-table>
         <entrance_class_total :data="data.entranceClassList"></entrance_class_total>
-
-        <div style="width: 700px;height: 50px;border: 1px solid;line-height: 50px;margin-top: 15px" align="center">
-          <el-text>产地数据</el-text>
-          <el-text style="margin-left: 10px">总计</el-text>
-          <el-text type="primary">{{ data.entranceProvinceList.total }}</el-text>
-          <el-text>条数据</el-text>
-          <el-text style="margin-left: 10px">省内占比</el-text>
-          <el-text type="primary">{{ data.entranceProvinceList.enter }}</el-text>
-          <el-text style="margin-left: 10px">省外占比</el-text>
-          <el-text type="primary">{{ data.entranceProvinceList.outer }}</el-text>
-        </div>
-        <el-table
-            style="min-width: 100%; margin-top: 10px"
-            :data="data.entranceProvinceList.values"
-            :row-style="{ height: '50px' }"
-            :header-cell-style="{ 'text-align': 'center' }"
-            :cell-style="{ 'text-align': 'center' }"
-            table-layout="fixed">
-          <el-table-column label="序号" type="index" width="60px"></el-table-column>
-          <el-table-column label="日期" prop="date"></el-table-column>
-          <el-table-column label="进场数据" prop="total"></el-table-column>
-          <el-table-column label="省内" prop="enter"></el-table-column>
-          <el-table-column label="省外" prop="outer"></el-table-column>
-          <template #empty>
-            <el-empty description="空空如也"/>
-          </template>
-        </el-table>
-        <entrance_from_total :data="data.entranceProvinceList.provinces"></entrance_from_total>
-      </div>
-
-      <el-divider/>
-
-      <div class="approach" style="margin-top: 20px" align="center">
-        <div class="text_show_container" align="center">
-          <el-text style="color: white">出场数据分析</el-text>
-        </div>
-        <div style="width: 500px;height: 50px;border: 1px solid;line-height: 50px;margin-top: 15px" align="center">
-          <el-text>出场数据</el-text>
-          <el-text style="margin-left: 10px">总计</el-text>
-          <el-text type="primary">{{ data.approachSum }}</el-text>
-          <el-text>条数据</el-text>
-          <el-text style="margin-left: 10px">环比增长</el-text>
-          <el-text type="primary">{{ data.approachQOQ }}</el-text>
-          <el-text style="margin-left: 10px">同比增长</el-text>
-          <el-text type="primary">{{ data.approachYOY }}</el-text>
-        </div>
-        <el-table
-            :data="data.approachTotalList"
-            style="min-width: 100%; margin-top: 10px"
-            :row-style="{ height: '50px' }"
-            :header-cell-style="{ 'text-align': 'center' }"
-            :cell-style="{ 'text-align': 'center' }"
-            table-layout="fixed">
-          <el-table-column label="序号" type="index" width="60px"></el-table-column>
-          <el-table-column label="日期" prop="date"></el-table-column>
-          <el-table-column label="数据量" prop="total"></el-table-column>
-          <el-table-column label="环比增长" prop="qoq"></el-table-column>
-          <el-table-column label="同比增长" prop="yoy"></el-table-column>
-          <template #empty>
-            <el-empty description="空空如也"/>
-          </template>
-        </el-table>
-        <entrance_total :data="data.approachTotalList"></entrance_total>
       </div>
     </div>
   </page_container>

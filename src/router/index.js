@@ -38,6 +38,11 @@ const router = createRouter({
                     path: '/analysis/industry/wholesale',
                     component: () => import('@/view/analysis/industry/wholesale.vue')
                 },
+                {path: '/analysis/industry/important', component: () => import('@/view/analysis/industry/important_enterprise.vue')},
+                {path: '/analysis/industry/animal', component: () => import('@/view/analysis/industry/animal.vue')},
+                {path: '/analysis/industry/butch', component: () => import('@/view/analysis/industry/butch.vue')},
+                {path: '/analysis/industry/farm', component: () => import('@/view/analysis/industry/farm.vue')},
+                {path: '/analysis/industry/plant', component: () => import('@/view/analysis/industry/plant.vue')},
                 {path: '/analysis/industry/process', component: () => import('@/view/analysis/industry/process.vue')},
                 {path: '/analysis/industry/struct', component: () => import('@/view/analysis/industry/struct.vue')},
                 {path: '/analysis/market', redirect: '/analysis/market/operations'},
@@ -46,6 +51,7 @@ const router = createRouter({
                 {path: '/analysis/report/year', component: () => import('@/view/analysis/report/year.vue')},
                 {path: '/analysis/report/month', component: () => import('@/view/analysis/report/month.vue')},
                 {path: '/analysis/report/quarter', component: () => import('@/view/analysis/report/quarter.vue')},
+                {path: '/analysis/report/struct', component: () => import('@/view/analysis/report/struct.vue')},
             ]
         },
         {

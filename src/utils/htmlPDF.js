@@ -35,8 +35,8 @@ export const htmlPdf = (title, html, fileList, type) => {// type传有效值pdf�
         taintTest: false,
         logging: false,
         useCORS: true,
-        dpi: window.devicePixelRatio * 1,
-        scale: 1 // 按比例增加分辨率
+        dpi: window.devicePixelRatio,
+        scale: 2 // 按比例增加分辨率
     }).then(canvas => {
         let pdf = new JsPDF('p', 'mm', 'a4') // A4纸，纵向
         let ctx = canvas.getContext('2d')

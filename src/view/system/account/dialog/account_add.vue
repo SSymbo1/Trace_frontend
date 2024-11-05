@@ -3,9 +3,6 @@ import {ref} from "vue";
 import {enterpriseSubMenue, roleSubMenue} from "@/api/menue/sub_menue.js";
 import {Delete, Edit} from "@element-plus/icons-vue";
 import {ElMessage} from "element-plus";
-import axios from "axios";
-import {useBackend} from "@/store/base/backend.js";
-import {useToken} from "@/store/index.js";
 import {avatarUpload} from "@/api/file/file_upload.js";
 import {addAccountInfo} from "@/api/system/account.js";
 

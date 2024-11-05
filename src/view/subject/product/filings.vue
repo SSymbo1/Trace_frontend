@@ -219,6 +219,19 @@ onActivated(() => {
       </template>
     </el-table>
 
+    <!--分页-->
+    <el-pagination
+        v-model:current-page="query.currentPage"
+        v-model:page-size="query.pageSize"
+        :page-sizes="[5,10,20,50]"
+        :small="false"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="query.total"
+        @size-change="onSizeChange"
+        @current-change="onCurrentChange"
+        style="margin-top: 20px; justify-content: flex-end"
+    />
+
     <product_info ref="info"></product_info>
 
     <edit_product ref="edit" @success="editProductSuccessHandler"></edit_product>
