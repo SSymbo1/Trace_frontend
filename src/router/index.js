@@ -8,84 +8,84 @@ const router = createRouter({
     history: createWebHashHistory(),
     // history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
-        {path: '/', component: () => import('@/view/home/home.vue')},
-        {path: '/login', component: () => import('@/view/welcome/login.vue')},
-        {path: '/platform', component: () => import('@/view/platform/index.vue')},
+        {path: '/', component: () => import('@/view/home/Home.vue')},
+        {path: '/login', component: () => import('@/view/welcome/Login.vue')},
+        {path: '/platform', component: () => import('@/view/platform/Index.vue')},
         {
-            path: '/system', redirect: '/system/home', component: () => import('@/view/system/index.vue'),
+            path: '/system', redirect: '/system/home', component: () => import('@/view/system/Index.vue'),
             children: [
-                {path: '/system/home', component: () => import('@/view/system/home.vue')},
+                {path: '/system/home', component: () => import('@/view/system/Home.vue')},
                 {path: '/system/account', redirect: '/system/account/user'},
-                {path: '/system/account/user', component: () => import('@/view/system/account/user.vue')},
-                {path: '/system/account/role', component: () => import('@/view/system/account/role.vue')},
-                {path: '/system/account/enterprise', component: () => import('@/view/system/account/enterprise.vue')},
+                {path: '/system/account/user', component: () => import('@/view/system/account/User.vue')},
+                {path: '/system/account/role', component: () => import('@/view/system/account/Role.vue')},
+                {path: '/system/account/enterprise', component: () => import('@/view/system/account/Enterprise.vue')},
                 {path: '/system/sensitive', redirect: '/system/sensitive/account'},
-                {path: '/system/sensitive/account', component: () => import('@/view/system/sensitive/account.vue')},
+                {path: '/system/sensitive/account', component: () => import('@/view/system/sensitive/Account.vue')},
                 {
                     path: '/system/sensitive/enterprise',
-                    component: () => import('@/view/system/sensitive/enterprise.vue')
+                    component: () => import('@/view/system/sensitive/Enterprise.vue')
                 },
-                {path: '/system/sensitive/role', component: () => import('@/view/system/sensitive/role.vue')},
+                {path: '/system/sensitive/role', component: () => import('@/view/system/sensitive/Role.vue')},
             ]
         },
         {
-            path: '/analysis', redirect: '/analysis/home', component: () => import('@/view/analysis/index.vue'),
+            path: '/analysis', redirect: '/analysis/home', component: () => import('@/view/analysis/Index.vue'),
             children: [
-                {path: '/analysis/home', component: () => import('@/view/analysis/home.vue')},
+                {path: '/analysis/home', component: () => import('@/view/analysis/Home.vue')},
                 {path: '/analysis/industry', redirect: '/analysis/industry/market'},
-                {path: '/analysis/industry/market', component: () => import('@/view/analysis/industry/market.vue')},
+                {path: '/analysis/industry/market', component: () => import('@/view/analysis/industry/Market.vue')},
                 {
                     path: '/analysis/industry/wholesale',
-                    component: () => import('@/view/analysis/industry/wholesale.vue')
+                    component: () => import('@/view/analysis/industry/Wholesale.vue')
                 },
-                {path: '/analysis/industry/important', component: () => import('@/view/analysis/industry/important_enterprise.vue')},
-                {path: '/analysis/industry/animal', component: () => import('@/view/analysis/industry/animal.vue')},
-                {path: '/analysis/industry/butch', component: () => import('@/view/analysis/industry/butch.vue')},
-                {path: '/analysis/industry/farm', component: () => import('@/view/analysis/industry/farm.vue')},
-                {path: '/analysis/industry/plant', component: () => import('@/view/analysis/industry/plant.vue')},
-                {path: '/analysis/industry/process', component: () => import('@/view/analysis/industry/process.vue')},
-                {path: '/analysis/industry/struct', component: () => import('@/view/analysis/industry/struct.vue')},
+                {path: '/analysis/industry/important', component: () => import('@/view/analysis/industry/ImportantEnterprise.vue')},
+                {path: '/analysis/industry/animal', component: () => import('@/view/analysis/industry/Animal.vue')},
+                {path: '/analysis/industry/butch', component: () => import('@/view/analysis/industry/Butch.vue')},
+                {path: '/analysis/industry/farm', component: () => import('@/view/analysis/industry/Farm.vue')},
+                {path: '/analysis/industry/plant', component: () => import('@/view/analysis/industry/Plant.vue')},
+                {path: '/analysis/industry/process', component: () => import('@/view/analysis/industry/Process.vue')},
+                {path: '/analysis/industry/struct', component: () => import('@/view/analysis/industry/Struct.vue')},
                 {path: '/analysis/market', redirect: '/analysis/market/operations'},
-                {path: '/analysis/market/operations', component: () => import('@/view/analysis/market/operations.vue')},
+                {path: '/analysis/market/operations', component: () => import('@/view/analysis/market/Operations.vue')},
                 {path: '/analysis/report', redirect: '/analysis/report/year'},
-                {path: '/analysis/report/year', component: () => import('@/view/analysis/report/year.vue')},
-                {path: '/analysis/report/month', component: () => import('@/view/analysis/report/month.vue')},
-                {path: '/analysis/report/quarter', component: () => import('@/view/analysis/report/quarter.vue')},
-                {path: '/analysis/report/struct', component: () => import('@/view/analysis/report/struct.vue')},
+                {path: '/analysis/report/year', component: () => import('@/view/analysis/report/Year.vue')},
+                {path: '/analysis/report/month', component: () => import('@/view/analysis/report/Month.vue')},
+                {path: '/analysis/report/quarter', component: () => import('@/view/analysis/report/Quarter.vue')},
+                {path: '/analysis/report/struct', component: () => import('@/view/analysis/report/Struct.vue')},
             ]
         },
         {
-            path: '/monitor', redirect: '/monitor/home', component: () => import('@/view/monitor/index.vue'),
+            path: '/monitor', redirect: '/monitor/home', component: () => import('@/view/monitor/Index.vue'),
             children: [
-                {path: '/monitor/home', component: () => import('@/view/monitor/home.vue')},
+                {path: '/monitor/home', component: () => import('@/view/monitor/Home.vue')},
                 {path: '/monitor/manage', redirect: '/monitor/manage/summary'},
-                {path: '/monitor/manage/summary', component: () => import('@/view/monitor/manage/summary.vue')},
-                {path: '/monitor/manage/data', component: () => import('@/view/monitor/manage/data.vue')},
-                {path: '/monitor/manage/info', component: () => import('@/view/monitor/manage/info.vue')}
+                {path: '/monitor/manage/summary', component: () => import('@/view/monitor/manage/Summary.vue')},
+                {path: '/monitor/manage/data', component: () => import('@/view/monitor/manage/Data.vue')},
+                {path: '/monitor/manage/info', component: () => import('@/view/monitor/manage/Info.vue')}
             ]
         },
         {
-            path: '/segment', redirect: '/segment/home', component: () => import('@/view/segment/index.vue'),
+            path: '/segment', redirect: '/segment/home', component: () => import('@/view/segment/Index.vue'),
             children: [
-                {path: '/segment/home', component: () => import('@/view/segment/home.vue')},
+                {path: '/segment/home', component: () => import('@/view/segment/Home.vue')},
                 {path: '/segment/manage', redirect: '/segment/manage/entry'},
-                {path: '/segment/manage/entry', component: () => import('@/view/segment/manage/entry.vue')},
-                {path: '/segment/manage/appears', component: () => import('@/view/segment/manage/appears.vue')},
+                {path: '/segment/manage/entry', component: () => import('@/view/segment/manage/Entry.vue')},
+                {path: '/segment/manage/appears', component: () => import('@/view/segment/manage/Appears.vue')},
             ]
         },
         {
-            path: '/subject', redirect: '/subject/home', component: () => import('@/view/subject/index.vue'),
+            path: '/subject', redirect: '/subject/home', component: () => import('@/view/subject/Index.vue'),
             children: [
-                {path: '/subject/home', component: () => import('@/view/subject/home.vue')},
+                {path: '/subject/home', component: () => import('@/view/subject/Home.vue')},
                 {path: '/subject/bulk', redirect: '/subject/bulk/supplier'},
-                {path: '/subject/bulk/supplier', component: () => import('@/view/subject/bulk/supplier.vue')},
-                {path: '/subject/bulk/vendors', component: () => import('@/view/subject/bulk/vendors.vue')},
+                {path: '/subject/bulk/supplier', component: () => import('@/view/subject/bulk/Supplier.vue')},
+                {path: '/subject/bulk/vendors', component: () => import('@/view/subject/bulk/Vendors.vue')},
                 {path: '/subject/product', redirect: '/subject/product/filings'},
-                {path: '/subject/product/filings', component: () => import('@/view/subject/product/filings.vue')},
-                {path: '/subject/product/add', component: () => import('@/view/subject/component/product_add.vue')},
+                {path: '/subject/product/filings', component: () => import('@/view/subject/product/Filings.vue')},
+                {path: '/subject/product/add', component: () => import('@/view/subject/component/ProductAdd.vue')},
                 {
                     path: '/subject/product/process',
-                    component: () => import ('@/view/subject/component/product_record.vue')
+                    component: () => import ('@/view/subject/component/ProductRecord.vue')
                 }
             ]
         },

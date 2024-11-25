@@ -41,5 +41,6 @@ pnpm run dev
 - assets ( 静态资源 )
 - json ( 复用魔法值 )
 - router ( 路由配置 )
-- stores ( pinia配置 )
+- store ( pinia配置 )
+- utils ( 工具脚本 )
 - view ( 功能页面 )

@@ -23,3 +23,11 @@ export const deleteImportantEnterpriseBatched = (range) => {
 export const getStructData = (query) => {
     return request.get('/analysis/struct', query)
 }
+
+export const generateStructReport = (query) => {
+    return request.post('/analysis/struct/report', query)
+}
+
+export const getStructReportData = (query) => {
+    return request.get('/analysis/struct/report', query)
+}
