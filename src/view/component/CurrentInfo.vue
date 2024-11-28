@@ -1,6 +1,5 @@
 <script setup>
 import {ref} from "vue";
-import Captcha from "@/view/system/account/dialog/Captcha.vue";
 
 const drawerVisible = ref(false);
 const data = ref({})

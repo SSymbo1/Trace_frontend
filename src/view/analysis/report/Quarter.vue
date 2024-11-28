@@ -4,36 +4,69 @@ import {ref} from "vue";
 import bread from '@/json/analysis_bread_crumb.json'
 import router from "@/router/index.js";
 import {Search} from "@element-plus/icons-vue";
+import {getTraceDataList} from "@/api/analysis/trace.js";
+import {ElMessage} from "element-plus";
 
 const tabBread = ref(bread.quarter)
 const query = ref({
   pageSize: 5,
   total: 0,
+  date: "",
   currentPage: 1,
-  date: ""
+  type: "TraceQuarter"
 })
+const date = ref("")
 const quarters = [
   {label: '第一季度', value: 'Q1'},
   {label: '第二季度', value: 'Q2'},
   {label: '第三季度', value: 'Q3'},
   {label: '第四季度', value: 'Q4'}
 ]
-const selectedQuarter = ref(null)
+const selectedQuarter = ref("")
 const loading = ref(false)
 const data = ref()
 
-
 // 分页器：页面内容大小切换
 const onSizeChange = (value) => {
+  getTraceData()
 }
 
 // 分页器：页面切换
 const onCurrentChange = (value) => {
+  getTraceData()
 }
 
-const handleQuarterChange = () => {
-  console.log(selectedQuarter.value)
+const getTraceData = async () => {
+  loading.value = true
+  if ((date.value.length > 0 && selectedQuarter.value.length > 0) || (date.value.length === 0 && selectedQuarter.value.length === 0)) {
+    query.value.date = date.value + selectedQuarter.value
+    getTraceDataList(query.value).then(resp => {
+      data.value = resp.data.trace.data
+      query.value.total = resp.data.trace.total
+      query.value.pageSize = resp.data.trace.size
+      query.value.currentPage = resp.data.trace.current
+      loading.value = false
+    })
+  } else {
+    ElMessage.error("请选择季度和年份!")
+    loading.value = false
+  }
 }
+
+const reviewTraceReport = (scope) => {
+  router.push({
+    path: '/analysis/report/trace',
+    query: {
+      date: scope.date,
+      name: scope.name,
+      type: "QuarterTrace"
+    }
+  })
+}
+
+onActivated(() => {
+  getTraceData()
+})
 </script>
 
 <template>
@@ -64,7 +97,7 @@ const handleQuarterChange = () => {
       <el-row>
         <el-col :span="11">
           <el-form-item label="季度">
-            <el-select v-model="selectedQuarter" placeholder="Select a quarter" @change="handleQuarterChange"
+            <el-select v-model="selectedQuarter" placeholder="请选择季度"
                        style="width: 200px">
               <el-option
                   v-for="quarter in quarters"
@@ -76,16 +109,16 @@ const handleQuarterChange = () => {
           </el-form-item>
           <el-form-item label="年份">
             <el-date-picker
-                v-model="query.date"
-                type="years"
-                range-separator="To"
-                start-placeholder="Start date"
-                end-placeholder="End date"
+                placeholder="请选择年份"
+                v-model="date"
+                type="year"
+                value-format="YYYY"
+                format="YYYY"
             />
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-button type="primary" :icon="Search" @click="">搜索</el-button>
+          <el-button type="primary" :icon="Search" @click="getTraceData">搜索</el-button>
         </el-col>
       </el-row>
       <el-divider/>
@@ -100,13 +133,12 @@ const handleQuarterChange = () => {
         :cell-style="{ 'text-align': 'center' }"
         table-layout="fixed">
       <el-table-column label="序号" type="index" width="60px"></el-table-column>
-      <el-table-column label="报告期数" prop="name"></el-table-column>
-      <el-table-column label="开始日期" prop="value"></el-table-column>
-      <el-table-column label="结束日期" prop="value"></el-table-column>
+      <el-table-column label="报告期数" prop="date"></el-table-column>
+      <el-table-column label="报告名称" prop="name"></el-table-column>
       <el-table-column label="操作" width="150px">
         <template #default="scope">
-          <el-button type="success" :icon="Search" round @click="showInfo(scope.row)">
-            查看分析报告
+          <el-button type="success" :icon="Search" round @click="reviewTraceReport(scope.row)">
+            查看报告
           </el-button>
         </template>
       </el-table-column>

@@ -181,6 +181,20 @@
       "path": "/analysis/report/struct"
     }
   ],
+  "traceReport": [
+    {
+      "name": "首页",
+      "path": "/analysis/home"
+    },
+    {
+      "name": "追溯分析报告",
+      "path": "/analysis/report"
+    },
+    {
+      "name": "溯源报告",
+      "path": "/analysis/report/trace"
+    }
+  ],
   "enterprise": [
     {
       "name": "首页",

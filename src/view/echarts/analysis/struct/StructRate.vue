@@ -1,6 +1,6 @@
 <script setup>
-import {defineProps, getCurrentInstance, nextTick, onMounted, onUnmounted, ref, watch} from "vue";
-import {config} from "@/view/echarts/analysis/config/struct_ratio_config.js";
+import {defineProps, getCurrentInstance, nextTick, ref, watch} from "vue";
+import {config} from "@/view/echarts/analysis/config/struct_rate_config.js";
 
 const graph = ref(null);
 const option = config
@@ -15,23 +15,14 @@ const props = defineProps({
 })
 
 const initEcharts = () => {
-  if (graph.value && props.data) {
-    myChart = echarts.init(graph.value)
-    let total = []
-    props.data.forEach(item => {
-      let obj = {
-        value: parseFloat(item.total) / 100,
-        name: item.name
-      }
-      total.push(obj)
-    })
-    let data = {
-      ...config,
-      series: [{...option.series[0], data: total}],
-    }
-    myChart.setOption(data)
-    window.addEventListener('resize', handleResize);
+  myChart = echarts.init(graph.value)
+  let total = []
+  let data = {
+    ...config,
+    series: [{...option.series[0], data: total}],
   }
+  myChart.setOption(data)
+  window.addEventListener('resize', handleResize);
 }
 
 watch(() => props.data, (newValue) => {
@@ -60,9 +51,7 @@ const handleResize = () => {
 
 onActivated(() => {
   nextTick(() => {
-    if (props.data) {
-      initEcharts()
-    }
+    initEcharts()
   })
 })
 

@@ -1,7 +1,7 @@
 <script setup>
 import Page_container from "@/view/component/PageContainer.vue";
 import router from "@/router/index.js";
-import {Check, Close, Document, DocumentAdd, Edit, Picture, Plus, Search, Setting} from "@element-plus/icons-vue";
+import {Check, Close, Document, Search} from "@element-plus/icons-vue";
 import {onActivated, ref} from "vue";
 import {getProductRecordPaged, processApprove, processReject} from "@/api/subject/product.js";
 import Product_info from "@/view/subject/product/drawer/ProductInfo.vue";

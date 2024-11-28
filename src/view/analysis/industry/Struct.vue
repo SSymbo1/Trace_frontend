@@ -3,7 +3,7 @@ import Page_container from "@/view/component/PageContainer.vue";
 import bread from '@/json/analysis_bread_crumb.json'
 import {ref} from "vue";
 import router from "@/router/index.js";
-import {DocumentAdd, Download, Edit, Search, Setting} from "@element-plus/icons-vue";
+import {DocumentAdd, Edit, Search} from "@element-plus/icons-vue";
 import {generateStructReport, getStructData} from "@/api/analysis/struct.js";
 import {ElNotification} from "element-plus";
 

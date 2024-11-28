@@ -2,7 +2,7 @@
 import Page_container from "@/view/component/PageContainer.vue";
 import bread from '@/json/system_bread_crumb.json'
 import router from "@/router/index.js";
-import {Delete, Document, Edit, Plus, Search, Setting} from "@element-plus/icons-vue";
+import {Edit, Plus, Search} from "@element-plus/icons-vue";
 import {onActivated, ref} from "vue";
 import {getEnterpriseInfoPaged} from "@/api/system/enterprise.js";
 import Enterprise_add from "@/view/system/account/dialog/EnterpriseAdd.vue";

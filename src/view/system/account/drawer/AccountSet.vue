@@ -2,7 +2,7 @@
 import {ref} from "vue";
 import {Edit} from "@element-plus/icons-vue";
 import {setAccountStatue} from "@/api/system/account.js";
-import {ElMessage, ElNotification} from "element-plus";
+import {ElNotification} from "element-plus";
 import caution from '@/json/account_set_caution.json'
 
 const drawerVisible = ref(false);

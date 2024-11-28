@@ -1,14 +1,6 @@
 <script setup>
-import {
-  ref,
-  getCurrentInstance,
-  nextTick,
-  defineProps,
-  watch,
-  onMounted,
-  onUnmounted
-} from "vue";
-import {config} from './config/product_class_total_config.js'
+import {defineProps, getCurrentInstance, nextTick, onMounted, onUnmounted, ref, watch} from "vue";
+import {config} from '../config/entrance_total_config.js'
 
 const graph = ref(null);
 const option = config
@@ -25,25 +17,22 @@ const props = defineProps({
 const initEcharts = () => {
   if (graph.value && props.data) {
     myChart = echarts.init(graph.value)
+    let yoy = []
+    let qoq = []
     let date = []
-    let fresh = []
-    let product = []
-    let drink = []
-    let food = []
-    props.data.forEach((item) => {
+    let value = []
+    props.data.forEach(item => {
+      yoy.push(item.yoy)
+      qoq.push(item.qoq)
       date.push(item.date)
-      fresh.push(item.fresh)
-      product.push(item.product)
-      drink.push(item.drink)
-      food.push(item.food)
+      value.push(item.total)
     })
     let data = {
       ...config,
       series: [
-        {...option.series[0], data: fresh},
-        {...option.series[1], data: product},
-        {...option.series[2], data: drink},
-        {...option.series[3], data: food}],
+        {...option.series[0], data: value},
+        {...option.series[1], data: yoy},
+        {...option.series[2], data: qoq},],
       xAxis: {...option.xAxis, data: date}
     }
     myChart.setOption(data)
@@ -53,25 +42,22 @@ const initEcharts = () => {
 
 watch(() => props.data, (newValue) => {
   if (newValue && myChart) {
+    let yoy = []
+    let qoq = []
     let date = []
-    let fresh = []
-    let product = []
-    let drink = []
-    let food = []
-    props.data.forEach((item) => {
+    let value = []
+    newValue.forEach(item => {
+      yoy.push(item.yoy)
+      qoq.push(item.qoq)
       date.push(item.date)
-      fresh.push(item.fresh)
-      product.push(item.product)
-      drink.push(item.drink)
-      food.push(item.food)
+      value.push(item.total)
     })
     let data = {
       ...config,
       series: [
-        {...option.series[0], data: fresh},
-        {...option.series[1], data: product},
-        {...option.series[2], data: drink},
-        {...option.series[3], data: food}],
+        {...option.series[0], data: value},
+        {...option.series[1], data: yoy},
+        {...option.series[2], data: qoq},],
       xAxis: {...option.xAxis, data: date}
     }
     myChart.setOption(data, true)

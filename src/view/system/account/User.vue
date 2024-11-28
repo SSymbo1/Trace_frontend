@@ -2,7 +2,7 @@
 import bread from '@/json/system_bread_crumb.json'
 import router from "@/router/index.js";
 import Page_container from "@/view/component/PageContainer.vue";
-import {Document, Edit, Open, Plus, Remove, Search, Setting, SwitchButton} from "@element-plus/icons-vue";
+import {Document, Edit, Plus, Search, Setting, SwitchButton} from "@element-plus/icons-vue";
 import {onActivated, ref} from "vue";
 import {getAccountInfoPaged} from "@/api/system/account.js";
 import Account_info from "@/view/system/account/drawer/AccountInfo.vue";

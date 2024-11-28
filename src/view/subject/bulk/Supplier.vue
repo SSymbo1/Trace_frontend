@@ -3,7 +3,7 @@ import Page_container from "@/view/component/PageContainer.vue";
 import router from "@/router/index.js";
 import {onActivated, ref} from "vue";
 import bread from '@/json/subject_bread_crumb.json'
-import {Plus, Search} from "@element-plus/icons-vue";
+import {Search} from "@element-plus/icons-vue";
 import {getSupplierPaged} from "@/api/subject/supplier.js";
 import Supplier_advanced_search from "@/view/subject/bulk/drawer/SupplierAdvancedSearch.vue";
 

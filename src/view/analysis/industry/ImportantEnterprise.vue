@@ -3,10 +3,11 @@ import Page_container from "@/view/component/PageContainer.vue";
 import {ref} from "vue";
 import bread from "@/json/analysis_bread_crumb.json";
 import router from "@/router/index.js";
-import {Delete, Edit, Search} from "@element-plus/icons-vue";
+import {Delete, Edit} from "@element-plus/icons-vue";
 import {
   deleteImportantEnterprise,
-  deleteImportantEnterpriseAll, deleteImportantEnterpriseBatched,
+  deleteImportantEnterpriseAll,
+  deleteImportantEnterpriseBatched,
   getImportantEnterpriseData
 } from "@/api/analysis/struct.js";
 import Add_enterprise from "@/view/analysis/industry/dialog/AddEnterprise.vue";
@@ -29,7 +30,6 @@ const getImportantEnterpriseList = async () => {
   getImportantEnterpriseData().then(resp => {
     if (resp.code === 200) {
       data.value = resp.data.important
-      console.log(data.value)
     }
   })
 }

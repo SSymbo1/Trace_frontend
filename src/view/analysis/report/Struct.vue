@@ -3,14 +3,14 @@ import Page_container from "@/view/component/PageContainer.vue";
 import {ref} from "vue";
 import bread from "@/json/analysis_bread_crumb.json";
 import router from "@/router/index.js";
-import {Delete, Download, Edit} from "@element-plus/icons-vue";
+import {Download} from "@element-plus/icons-vue";
 import {html_pdf} from "@/utils/html_pdf.js";
 import {useRoute} from "vue-router";
 import {getStructReportData} from "@/api/analysis/struct.js";
-import Struct_total from "@/view/echarts/analysis/StructTotal.vue";
-import Struct_focus from "@/view/echarts/analysis/StructFocus.vue";
-import Struct_rate from "@/view/echarts/analysis/StructRate.vue";
-import Struct_ratio from "@/view/echarts/analysis/StructRatio.vue";
+import Struct_total from "@/view/echarts/analysis/struct/StructTotal.vue";
+import Struct_focus from "@/view/echarts/analysis/struct/StructFocus.vue";
+import Struct_rate from "@/view/echarts/analysis/struct/StructRate.vue";
+import Struct_ratio from "@/view/echarts/analysis/struct/StructRatio.vue";
 
 const tabBread = ref(bread.structReport)
 const route = useRoute()
@@ -104,7 +104,6 @@ onActivated(() => {
           <struct_total :data="data.countData" style="height: 410px"></struct_total>
         </div>
       </div>
-
 
       <div class="focus" style="margin-top: 20px">
         <div class="text_show_container" align="center">

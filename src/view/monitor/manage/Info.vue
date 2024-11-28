@@ -1,7 +1,7 @@
 <script setup>
 import Page_container from "@/view/component/PageContainer.vue";
 import router from "@/router/index.js";
-import {Edit, Expand, Histogram} from "@element-plus/icons-vue";
+import {Expand, Histogram} from "@element-plus/icons-vue";
 import {onActivated, ref} from "vue";
 import {useRoute} from "vue-router";
 import Info_pie from "@/view/echarts/monitor/InfoPie.vue";

@@ -2,8 +2,8 @@
 import Page_container from "@/view/component/PageContainer.vue";
 import bread from '@/json/system_bread_crumb.json'
 import router from "@/router/index.js";
-import {Document, Edit, Plus, Search, Setting, SwitchButton} from "@element-plus/icons-vue";
-import {ref, onActivated} from "vue";
+import {Edit, Plus, Search, Setting, SwitchButton} from "@element-plus/icons-vue";
+import {onActivated, ref} from "vue";
 import {getRoleInfoPaged} from "@/api/system/role.js";
 import Role_add from "@/view/system/account/dialog/RoleAdd.vue";
 import Role_advanced_search from "@/view/system/account/drawer/RoleAdvancedSearch.vue";

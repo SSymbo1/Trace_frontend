@@ -1,5 +1,5 @@
 <script setup>
-import {ref, onDeactivated, onActivated, getCurrentInstance, nextTick} from "vue";
+import {getCurrentInstance, onActivated, onDeactivated, ref} from "vue";
 import {config} from './config/hoem_histogram_config.js'
 import {homeHistogram} from "@/api/common/common.js";
 

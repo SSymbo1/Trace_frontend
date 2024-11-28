@@ -1,6 +1,6 @@
 <script setup>
 import Page_container from "@/view/component/PageContainer.vue";
-import {ref, onActivated} from "vue";
+import {onActivated, ref} from "vue";
 import bread from '@/json/monitor_bread_crumb.json'
 import router from "@/router/index.js";
 import {Edit, Expand, Histogram, Search} from "@element-plus/icons-vue";

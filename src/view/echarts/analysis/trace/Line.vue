@@ -1,14 +1,6 @@
 <script setup>
-import {
-  ref,
-  getCurrentInstance,
-  nextTick,
-  defineProps,
-  watch,
-  onMounted,
-  onUnmounted
-} from "vue";
-import {config} from './config/struct_total_config.js'
+import {defineProps, getCurrentInstance, nextTick, ref, watch} from "vue";
+import {config} from '../config/trace_line.js'
 
 const graph = ref(null);
 const option = config
@@ -23,45 +15,47 @@ const props = defineProps({
 })
 
 const initEcharts = () => {
-  console.log("echarts执行")
-  if (graph.value && props.data) {
-    console.log(props.data)
-    myChart = echarts.init(graph.value)
-    let type = []
-    let normal = []
-    let focus = []
-    props.data.forEach((item) => {
-      type.push(item.name)
-      normal.push(item.normal)
-      focus.push(item.focus)
-    })
-    let data = {
-      ...config,
-      series: [
-        {...option.series[0], data: normal},
-        {...option.series[1], data: focus}],
-      xAxis: {...option.xAxis, data: type}
-    }
-    myChart.setOption(data)
-    window.addEventListener('resize', handleResize);
+  myChart = echarts.init(graph.value)
+  let type = []
+  let count = []
+  let yoy = []
+  let qoq = []
+  props.data.forEach((item) => {
+    type.push(item.name)
+    count.push(item.total)
+    yoy.push(item.yoy)
+    qoq.push(item.qoq)
+  })
+  let data = {
+    ...config,
+    series: [
+      {...option.series[0], data: count},
+      {...option.series[1], data: yoy},
+      {...option.series[2], data: qoq}],
+    xAxis: {...option.xAxis, data: type}
   }
+  myChart.setOption(data)
+  window.addEventListener('resize', handleResize);
 }
 
 watch(() => props.data, (newValue) => {
   if (newValue && myChart) {
     let type = []
-    let normal = []
-    let focus = []
+    let count = []
+    let yoy = []
+    let qoq = []
     newValue.forEach((item) => {
       type.push(item.name)
-      normal.push(item.normal)
-      focus.push(item.focus)
+      count.push(item.total)
+      yoy.push(item.yoy)
+      qoq.push(item.qoq)
     })
     let data = {
       ...config,
       series: [
-        {...option.series[0], data: normal},
-        {...option.series[1], data: focus}],
+        {...option.series[0], data: count},
+        {...option.series[1], data: yoy},
+        {...option.series[2], data: qoq}],
       xAxis: {...option.xAxis, data: type}
     }
     myChart.setOption(data, true)
@@ -76,9 +70,7 @@ const handleResize = () => {
 
 onActivated(() => {
   nextTick(() => {
-    if (props.data) {
-      initEcharts()
-    }
+    initEcharts()
   })
 })
 

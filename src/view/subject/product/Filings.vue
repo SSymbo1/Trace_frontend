@@ -3,7 +3,7 @@ import Page_container from "@/view/component/PageContainer.vue";
 import router from "@/router/index.js";
 import {onActivated, ref} from "vue";
 import bread from '@/json/subject_bread_crumb.json'
-import {Document, Picture, DocumentAdd, Edit, Plus, Search} from "@element-plus/icons-vue";
+import {Document, DocumentAdd, Edit, Picture, Plus, Search} from "@element-plus/icons-vue";
 import Add_product_excel from "@/view/subject/product/dialog/AddProductExcel.vue";
 import Record_advanced_search from "@/view/subject/product/drawer/RecordAdvancedSearch.vue";
 import {getProductPaged} from "@/api/subject/product.js";

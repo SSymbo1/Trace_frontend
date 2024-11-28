@@ -1,12 +1,12 @@
-import {createRouter, createWebHashHistory, createWebHistory} from "vue-router";
+import {createRouter, createWebHistory} from "vue-router";
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import {ElMessage} from "element-plus";
 import {useToken} from "@/store/index";
 
 const router = createRouter({
-    history: createWebHashHistory(),
-    // history: createWebHistory(import.meta.env.BASE_URL),
+    // history: createWebHashHistory(),
+    history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         {path: '/', component: () => import('@/view/home/Home.vue')},
         {path: '/login', component: () => import('@/view/welcome/Login.vue')},
@@ -38,7 +38,10 @@ const router = createRouter({
                     path: '/analysis/industry/wholesale',
                     component: () => import('@/view/analysis/industry/Wholesale.vue')
                 },
-                {path: '/analysis/industry/important', component: () => import('@/view/analysis/industry/ImportantEnterprise.vue')},
+                {
+                    path: '/analysis/industry/important',
+                    component: () => import('@/view/analysis/industry/ImportantEnterprise.vue')
+                },
                 {path: '/analysis/industry/animal', component: () => import('@/view/analysis/industry/Animal.vue')},
                 {path: '/analysis/industry/butch', component: () => import('@/view/analysis/industry/Butch.vue')},
                 {path: '/analysis/industry/farm', component: () => import('@/view/analysis/industry/Farm.vue')},
@@ -52,6 +55,7 @@ const router = createRouter({
                 {path: '/analysis/report/month', component: () => import('@/view/analysis/report/Month.vue')},
                 {path: '/analysis/report/quarter', component: () => import('@/view/analysis/report/Quarter.vue')},
                 {path: '/analysis/report/struct', component: () => import('@/view/analysis/report/Struct.vue')},
+                {path: '/analysis/report/trace', component: () => import('@/view/analysis/report/Trace.vue')}
             ]
         },
         {

@@ -1,14 +1,6 @@
 <script setup>
-import {
-  ref,
-  getCurrentInstance,
-  nextTick,
-  defineProps,
-  watch,
-  onMounted,
-  onUnmounted
-} from "vue";
-import {config} from './config/entrance_from_total_config.js'
+import {defineProps, getCurrentInstance, nextTick, onMounted, onUnmounted, ref, watch} from "vue";
+import {config} from '../config/entrance_from_total_config.js'
 
 const graph = ref(null);
 const option = config

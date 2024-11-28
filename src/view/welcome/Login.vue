@@ -155,7 +155,7 @@ onDeactivated(() => {
           <vuetyped :strings="welcomeLabel.site_title" :loop="false" :smart-backspace='true'>
             <h1 class="typing" style="font-size: xxx-large"></h1>
           </vuetyped>
-          <vuetyped :strings="welcomeLabel.slogn" :loop="true" :smart-backspace='true'>
+          <vuetyped :strings="welcomeLabel.slogan" :loop="true" :smart-backspace='true'>
             <h2 class="typing"></h2>
           </vuetyped>
         </div>

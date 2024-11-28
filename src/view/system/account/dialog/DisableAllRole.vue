@@ -2,7 +2,6 @@
 import {ref} from "vue";
 import {getPictureCaptcha} from "@/api/welcome/welcome.js";
 import {Edit} from "@element-plus/icons-vue";
-import {disableAllAccount} from "@/api/system/account.js";
 import {ElMessage} from "element-plus";
 import {disableAllRole} from "@/api/system/role.js";
 

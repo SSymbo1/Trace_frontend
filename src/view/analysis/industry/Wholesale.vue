@@ -4,9 +4,9 @@ import {ref} from "vue";
 import bread from '@/json/analysis_bread_crumb.json'
 import router from "@/router/index.js";
 import {Download, Search} from "@element-plus/icons-vue";
-import Entrance_total from "@/view/echarts/analysis/EntranceTotal.vue";
-import Entrance_class_total from "@/view/echarts/analysis/EntranceClassTotal.vue";
-import Entrance_from_total from "@/view/echarts/analysis/EntranceFromTotal.vue";
+import Entrance_total from "@/view/echarts/analysis/industry/EntranceTotal.vue";
+import Entrance_class_total from "@/view/echarts/analysis/industry/EntranceClassTotal.vue";
+import Entrance_from_total from "@/view/echarts/analysis/industry/EntranceFromTotal.vue";
 import {html_pdf} from "@/utils/html_pdf.js";
 import {getBatchData} from "@/api/analysis/wholesale.js";
 

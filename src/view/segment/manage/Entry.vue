@@ -3,7 +3,7 @@ import Page_container from "@/view/component/PageContainer.vue";
 import {onActivated, ref} from "vue";
 import bread from '@/json/segment_bread_crumb.json'
 import router from "@/router/index.js";
-import {DocumentAdd, Edit, Picture, Search, Setting} from "@element-plus/icons-vue";
+import {DocumentAdd, Search} from "@element-plus/icons-vue";
 import {getEntryPaged} from "@/api/segment/segment.js";
 import Add_entry_excel from "@/view/segment/manage/dialog/AddEntryExcel.vue";
 import Entry_advanced_search from "@/view/segment/manage/drawer/EntryAdvancedSearch.vue";

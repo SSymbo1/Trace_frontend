@@ -1,14 +1,6 @@
 <script setup>
-import {
-  ref,
-  getCurrentInstance,
-  nextTick,
-  defineProps,
-  watch,
-  onMounted,
-  onUnmounted
-} from "vue";
-import {config} from './config/enterprise_rank_config.js'
+import {defineProps, getCurrentInstance, nextTick, onMounted, onUnmounted, ref, watch} from "vue";
+import {config} from '../config/product_class_total_config.js'
 
 const graph = ref(null);
 const option = config
@@ -26,16 +18,25 @@ const initEcharts = () => {
   if (graph.value && props.data) {
     myChart = echarts.init(graph.value)
     let date = []
-    let value = []
-    props.data.forEach(item => {
-      date.push(item.name)
-      value.push(item.total)
+    let fresh = []
+    let product = []
+    let drink = []
+    let food = []
+    props.data.forEach((item) => {
+      date.push(item.date)
+      fresh.push(item.fresh)
+      product.push(item.product)
+      drink.push(item.drink)
+      food.push(item.food)
     })
     let data = {
       ...config,
       series: [
-        {...option.series[0], data: value}],
-      yAxis: {...option.yAxis, data: date}
+        {...option.series[0], data: fresh},
+        {...option.series[1], data: product},
+        {...option.series[2], data: drink},
+        {...option.series[3], data: food}],
+      xAxis: {...option.xAxis, data: date}
     }
     myChart.setOption(data)
     window.addEventListener('resize', handleResize);
@@ -45,16 +46,25 @@ const initEcharts = () => {
 watch(() => props.data, (newValue) => {
   if (newValue && myChart) {
     let date = []
-    let value = []
-    newValue.forEach(item => {
-      date.push(item.name)
-      value.push(item.total)
+    let fresh = []
+    let product = []
+    let drink = []
+    let food = []
+    props.data.forEach((item) => {
+      date.push(item.date)
+      fresh.push(item.fresh)
+      product.push(item.product)
+      drink.push(item.drink)
+      food.push(item.food)
     })
     let data = {
       ...config,
       series: [
-        {...option.series[0], data: value}],
-      yAxis: {...option.yAxis, data: date}
+        {...option.series[0], data: fresh},
+        {...option.series[1], data: product},
+        {...option.series[2], data: drink},
+        {...option.series[3], data: food}],
+      xAxis: {...option.xAxis, data: date}
     }
     myChart.setOption(data, true)
   }
@@ -89,6 +99,6 @@ onUnmounted(() => {
 <style scoped lang="scss">
 .echarts {
   width: 100%;
-  height: 400px;
+  height: 500px;
 }
 </style>

@@ -3,7 +3,7 @@ import Page_container from "@/view/component/PageContainer.vue";
 import {onActivated, ref} from "vue";
 import bread from '@/json/monitor_bread_crumb.json'
 import router from "@/router/index.js";
-import {Edit, Expand, Histogram,Search} from "@element-plus/icons-vue";
+import {Edit, Expand, Histogram, Search} from "@element-plus/icons-vue";
 import {getHistogramData, getSummaryData} from "@/api/monitor/summary.js";
 import Summary_histogram from "@/view/echarts/monitor/SummaryHistogram.vue";
 

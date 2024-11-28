@@ -5,10 +5,10 @@ import bread from "@/json/analysis_bread_crumb.json";
 import router from "@/router/index.js";
 import {html_pdf} from "@/utils/html_pdf.js";
 import {Download, Search} from "@element-plus/icons-vue";
-import Entrance_total from "@/view/echarts/analysis/EntranceTotal.vue";
-import Entrance_class_total from "@/view/echarts/analysis/EntranceClassTotal.vue";
-import Entrance_from_total from "@/view/echarts/analysis/EntranceFromTotal.vue";
-import Enterprise_rank from "@/view/echarts/analysis/EnterpriseRank.vue";
+import Entrance_total from "@/view/echarts/analysis/industry/EntranceTotal.vue";
+import Entrance_class_total from "@/view/echarts/analysis/industry/EntranceClassTotal.vue";
+import Entrance_from_total from "@/view/echarts/analysis/industry/EntranceFromTotal.vue";
+import Enterprise_rank from "@/view/echarts/analysis/industry/EnterpriseRank.vue";
 import {getFarmData} from "@/api/analysis/farm.js";
 
 const tabBread = ref(bread.farm)

@@ -5,8 +5,8 @@ import {ref} from "vue";
 import router from "@/router/index.js";
 import {Download, Search} from "@element-plus/icons-vue";
 import {html_pdf} from "@/utils/html_pdf.js";
-import Product_class_total from "@/view/echarts/analysis/ProductClassTotal.vue";
-import Enterprise_rank from "@/view/echarts/analysis/EnterpriseRank.vue";
+import Product_class_total from "@/view/echarts/analysis/industry/ProductClassTotal.vue";
+import Enterprise_rank from "@/view/echarts/analysis/industry/EnterpriseRank.vue";
 import {getProcessData} from "@/api/analysis/process.js";
 
 const tabBread = ref(bread.process)

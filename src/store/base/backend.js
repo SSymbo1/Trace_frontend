@@ -1,5 +1,5 @@
-import { ref } from 'vue'
-import { defineStore } from 'pinia'
+import {ref} from 'vue'
+import {defineStore} from 'pinia'
 
 export const useBackend = defineStore(
     'backend',

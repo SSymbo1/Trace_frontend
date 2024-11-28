@@ -5,7 +5,7 @@ import {ElMessage, ElMessageBox} from "element-plus";
 import {useRouter} from "vue-router";
 import {useToken} from "@/store/index.js";
 import {onActivated, ref} from "vue";
-import {getMonitorMenue, getSubjectMenue} from "@/api/menue/menue.js";
+import {getMonitorMenue} from "@/api/menue/menue.js";
 import {useAccountStore} from "@/store/base/account.js";
 import Current_info from "@/view/component/CurrentInfo.vue";
 import Re_password from "@/view/component/RePassword.vue";

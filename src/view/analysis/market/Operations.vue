@@ -3,7 +3,7 @@ import Page_container from "@/view/component/PageContainer.vue";
 import {ref} from "vue";
 import bread from '@/json/analysis_bread_crumb.json'
 import router from "@/router/index.js";
-import {Plus, Search} from "@element-plus/icons-vue";
+import {Search} from "@element-plus/icons-vue";
 import {getOperationsData} from "@/api/analysis/market.js";
 
 const tabBread = ref(bread.operations)

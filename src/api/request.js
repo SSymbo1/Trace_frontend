@@ -18,7 +18,7 @@ const request = axios.create({
 request.interceptors.request.use(
     (config) => {
         //  pinia中是否有token，如果有，请求接口时在请求头中携带token
-        if (tokenStore.getToken() !== "" || tokenStore.getToken() !== undefined || tokenStore.getToken() !== null) {
+        if (tokenStore.getToken() !== "") {
             config.headers = {...config.headers, token: tokenStore.getToken()}
         }
         return config
@@ -36,10 +36,6 @@ export const get = async (url, params = {}) => {
                 grouping: true
             })
         }
-        //  在响应头中是否有refresh_token续约token字段，如果有则替换pinia中的token
-        if ("refresh_token" in response.headers) {
-            tokenStore.setToken(response.headers.refresh_token)
-        }
         return response.data;
     } catch (error) {
         await handleError(error)
@@ -50,8 +46,11 @@ export const get = async (url, params = {}) => {
 export const post = async (url, data = {}) => {
     try {
         const response = await request.post(url, data);
-        if ("refresh_token" in response.headers) {
-            tokenStore.setToken(response.headers.refresh_token)
+        if (response.data.code === 300) {
+            ElMessage.warning({
+                message: response.data.message,
+                grouping: true
+            })
         }
         return response.data;
     } catch (error) {
@@ -63,8 +62,11 @@ export const post = async (url, data = {}) => {
 export const put = async (url, data = {}) => {
     try {
         const response = await request.put(url, data);
-        if ("refresh_token" in response.headers) {
-            tokenStore.setToken(response.headers.refresh_token)
+        if (response.data.code === 300) {
+            ElMessage.warning({
+                message: response.data.message,
+                grouping: true
+            })
         }
         return response.data;
     } catch (error) {
@@ -76,8 +78,11 @@ export const put = async (url, data = {}) => {
 export const del = async (url, data = {}) => {
     try {
         const response = await request.delete(url, {data});
-        if ("refresh_token" in response.headers) {
-            tokenStore.setToken(response.headers.refresh_token)
+        if (response.data.code === 300) {
+            ElMessage.warning({
+                message: response.data.message,
+                grouping: true
+            })
         }
         return response.data;
     } catch (error) {
@@ -95,8 +100,11 @@ export const file = async (url, data = {}) => {
     }
     try {
         const response = await request.post(url, data, config);
-        if ("refresh_token" in response.headers) {
-            tokenStore.setToken(response.headers.refresh_token)
+        if (response.data.code === 300) {
+            ElMessage.warning({
+                message: response.data.message,
+                grouping: true
+            })
         }
         return response.data
     } catch (error) {
