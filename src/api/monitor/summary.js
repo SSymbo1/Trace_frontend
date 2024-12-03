@@ -14,7 +14,6 @@ export const getDataMonitorHistogramData = (query) => {
 
 export const getDataMonitorPieData = (query) => {
     return request.get('/monitor/node/pie', query)
-
 }
 
 export const getDataMonitorTableData = (query) => {

@@ -1,5 +1,5 @@
-import { ref } from 'vue'
-import { defineStore } from 'pinia'
+import {ref} from 'vue'
+import {defineStore} from 'pinia'
 
 export const useToken = defineStore(
     'token',
@@ -11,7 +11,10 @@ export const useToken = defineStore(
         const removeToken = () => {
             token.value = ''
         }
-        return { token, setToken, removeToken }
+        const getToken = () => {
+            return token.value
+        }
+        return {token, setToken, removeToken, getToken}
     },
     // 是否持久化存储
     {
