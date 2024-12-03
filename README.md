@@ -39,7 +39,7 @@ pnpm run dev
 
 - api ( 封装的request方法，数据接口 )
 - assets ( 静态资源 )
-- json ( 复用魔法值 )
+- json ( 组件配置 )
 - router ( 路由配置 )
 - store ( pinia配置 )
 - utils ( 工具脚本 )
