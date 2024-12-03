@@ -21,6 +21,7 @@ request.interceptors.request.use(
         if (tokenStore.getToken() !== "") {
             config.headers = {...config.headers, token: tokenStore.getToken()}
         }
+        config.headers = {...config.headers, "Cache-Control": "no-cache"}
         return config
     },
     (err) => Promise.reject(err)
@@ -95,6 +96,7 @@ export const file = async (url, data = {}) => {
     const config = {
         headers: {
             'token': tokenStore.getToken(),
+            "Cache-Control": "no-cache",
             'Content-Type': 'multipart/form-data'
         }
     }
