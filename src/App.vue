@@ -19,14 +19,16 @@ const locale = zhCn
 </template>
 
 <style scoped lang="scss">
-html,body{
+html, body {
   margin: 0;
   height: 100%;
   width: 100%;
 }
+
 .fade-enter-active, .fade-leave-active {
   transition: opacity 1s ease;
 }
+
 .fade-enter-from, .fade-leave-to {
   opacity: 0;
 }

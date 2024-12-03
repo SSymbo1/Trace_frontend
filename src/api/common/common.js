@@ -35,3 +35,23 @@ export const getProductEditInfo = (productId) => {
 export const getApproverInfo = (approverId) => {
     return request.get('/common/approver', {approverId})
 }
+
+export const getPlatformDataCollectRingData = () => {
+    return request.get('/common/platform/collect/ring')
+}
+
+export const getPlatformEnterpriseCollectData = () => {
+    return request.get('/common/platform/enterprise')
+}
+
+export const getPlatformProductCollectData = () => {
+    return request.get('/common/platform/product')
+}
+
+export const getPlatformTraceCollectData = () => {
+    return request.get('/common/platform/trace')
+}
+
+export const getPlatformMapData = () => {
+    return request.get('/common/platform/map')
+}

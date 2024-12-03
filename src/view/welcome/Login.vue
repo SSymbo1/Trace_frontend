@@ -231,11 +231,11 @@ onDeactivated(() => {
 </template>
 
 <style scoped lang="less">
-::v-deep .el-form-item__label {
+:deep .el-form-item__label {
   color: white;
 }
 
-::v-deep .el-checkbox {
+:deep .el-checkbox {
   color: white;
 }
 

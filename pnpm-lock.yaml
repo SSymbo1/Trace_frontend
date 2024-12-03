@@ -47,6 +47,9 @@ dependencies:
   three:
     specifier: 0.121.0
     version: 0.121.0
+  vanilla-tilt:
+    specifier: ^1.8.1
+    version: 1.8.1
   vanta:
     specifier: 0.5.24
     version: 0.5.24
@@ -1544,6 +1547,10 @@ packages:
     resolution: {integrity: sha512-1MLa5ouZiOmQzUbjbu9VmjLzn1QLXBhwpUa7kdLUQK+KQ5KA9I1vk5U4YHe/X2Ch7PYnJfWuWT+VbuxbGwljhw==, tarball: https://registry.npmmirror.com/utrie/-/utrie-1.0.2.tgz}
     dependencies:
       base64-arraybuffer: 1.0.2
+    dev: false
+
+  /vanilla-tilt@1.8.1:
+    resolution: {integrity: sha512-hPB1XUsnh+SIeVSW2beb5RnuFxz4ZNgxjGD78o52F49gS4xaoLeEMh9qrQnJrnEn/vjjBI7IlxrrXmz4tGV0Kw==, tarball: https://registry.npmmirror.com/vanilla-tilt/-/vanilla-tilt-1.8.1.tgz}
     dev: false
 
   /vanta@0.5.24:
